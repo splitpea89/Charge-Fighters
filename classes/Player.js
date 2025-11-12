@@ -15,6 +15,8 @@ class Player {
     this.jumpForce = 7.5;
     this.grounded = false;
     this.groundFrictionFactor = 0.96;
+    this.magnetismCoef = 1.5;
+    this.distancePower = 1.3;
     this.polKeyWasDown = false;
     this.activeParticles = [];
   }
@@ -40,11 +42,11 @@ class Player {
                 dx = element.x - this.x;
                 dy = element.y - this.y;
             }
-            this.vX -= this.pol * element.pol * dx / (pow(mag, 1.5))
-            this.vY -= this.pol * element.pol * dy / (pow(mag, 1.5))
+            this.vX -= this.pol * element.pol * dx * this.magnetismCoef  / (pow(mag, this.distancePower))
+            this.vY -= this.pol * element.pol * dy * this.magnetismCoef / (pow(mag, this.distancePower))
 
-            this.vX = constrain(this.vX, -this.maxVX, this.maxVX);
-            this.vY = constrain(this.vY, -this.maxVY, this.maxVY);
+            if(abs(this.vX) > this.maxVX) {this.vX *= this.overMaxSpeedPenaltyFactor}
+            if(abs(this.vY) > this.maxVY) {this.vY *= this.overMaxSpeedPenaltyFactor}
 
         }
     }
