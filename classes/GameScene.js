@@ -37,6 +37,8 @@ class GameScene extends Scene {
     this.drawArena();
     updateAndDrawElements(this.platforms);
     updateAndDrawPlayers(this.plr1, this.plr2, this);
+    Particle.updateAndDrawParticles(this.plr1.activeParticles);
+    Particle.updateAndDrawParticles(this.plr2.activeParticles);
   }
   
   drawArena() {

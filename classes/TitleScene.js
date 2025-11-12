@@ -56,7 +56,7 @@ class TitleScene extends Scene {
     if(this.activeMenu != 2) {
       this.menuElements = [];
       this.activeMenu = 2;
-      // TODO: create about menu
+      // create about menu
       
       append(this.menuElements, new TextBox(310, 225, 400, 230, 0, "Charge Fighters is a round-based platformer where players duel using magnetic polarity. \n\n" +
   "Switch charges to attract or repel opponents and interact with arena hazards. \n\n" +

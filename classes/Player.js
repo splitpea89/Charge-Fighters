@@ -9,12 +9,14 @@ class Player {
     this.size = 20;
     this.maxVX = 6;
     this.maxVY = 6;
+    this.overMaxSpeedPenaltyFactor = 0.95;
     this.torque = 0.4;
     this.gravity = 0.25;
     this.jumpForce = 7.5;
     this.grounded = false;
     this.groundFrictionFactor = 0.96;
     this.polKeyWasDown = false;
+    this.activeParticles = [];
   }
   
   update(gameScene) {
@@ -147,5 +149,6 @@ class Player {
   changePolarity() {
     this.pol *= -1;
     // TODO: add effects and cooldown
+    Particle.createParticleExplosion(this.x, this.y, color(50 + (this.pol * 100), 50 - abs(this.pol*25), 50 - (this.pol * 100)), 10, 0.9, 25, 25, this.activeParticles);
   }
 }
