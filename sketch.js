@@ -24,7 +24,7 @@ function draw() {
   push();
   adjMouseX = mouseX/SCALE_FACTOR;
   adjMouseY = mouseY/SCALE_FACTOR;
-  scale(scaleFactor);
+  scale(SCALE_FACTOR);
   let scene = activeScene.runLoop(millis() - lastTime); // we're giving the amount of time in ms passed since last loop 
   lastTime = millis();
   if(scene != undefined) {
