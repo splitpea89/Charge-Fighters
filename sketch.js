@@ -1,7 +1,7 @@
 let activeScene = new TitleScene();
 let startTime, lastTime;
 
-let scaleFactor = 1.2;
+const SCALE_FACTOR = 1.2;
 let adjMouseX;
 let adjMouseY;
 
@@ -12,7 +12,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(600*scaleFactor, 600*scaleFactor);
+  createCanvas(600*SCALE_FACTOR, 600*SCALE_FACTOR);
   rectMode(CENTER);
   
   startTime = millis();
@@ -22,8 +22,8 @@ function setup() {
 
 function draw() {
   push();
-  adjMouseX = mouseX/scaleFactor;
-  adjMouseY = mouseY/scaleFactor;
+  adjMouseX = mouseX/SCALE_FACTOR;
+  adjMouseY = mouseY/SCALE_FACTOR;
   scale(scaleFactor);
   let scene = activeScene.runLoop(millis() - lastTime); // we're giving the amount of time in ms passed since last loop 
   lastTime = millis();
