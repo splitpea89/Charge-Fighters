@@ -1,20 +1,24 @@
 // FUNCTIONS \\
 
-function updateAndDrawElements(elements) {
+function updateAndDrawElements(elements, activated) {
   for(let i = 0; i < elements.length; i++) {
     if(elements[i] == undefined) { // should check if element still exists
       elements.splice(i, 1);
       i--;
     } else {
-      elements[i].update();
+      if(activated) {
+        elements[i].update();
+      }
       elements[i].drawElement();
     }
   }
 }
 
-function updateAndDrawPlayers(plr1, plr2, gameScene) {
-  plr1.update(gameScene);
-  plr2.update(gameScene);
+function updateAndDrawPlayers(plr1, plr2, activated, gameScene) {
+  if(activated) {
+    plr1.update(gameScene);
+    plr2.update(gameScene);
+  }
   plr1.drawPlayer();
   plr2.drawPlayer();
 }

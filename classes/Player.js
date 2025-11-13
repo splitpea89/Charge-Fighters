@@ -6,6 +6,7 @@ class Player {
     this.vY = 0;
     this.plrNum = plrNum; // 1 or 2
     this.pol = pol; // -1 or 1
+    this.isAlive = true;
     this.size = 20;
     this.maxVX = 6;
     this.maxVY = 6;
@@ -23,6 +24,7 @@ class Player {
   
   update(gameScene) {
     // magnetism TODO: problem: rectangles x, y defined at their top left corner
+    if(!this.isAlive) {return;}
 
     for(let i in gameScene.polarElements) {
         let element = gameScene.polarElements[i];
@@ -56,7 +58,7 @@ class Player {
     }
     
     // controls
-       
+    
     if(this.plrNum == 1) {
       // with WASD
       if (keyIsDown(65) && this.vX >= -this.maxVX) { // 'A'
@@ -104,6 +106,21 @@ class Player {
     
     this.x += this.vX; // update velocity
     this.y += this.vY;
+
+    if(this.y > 600) {
+
+      if((this.plrNum == 1 && gameScene.plr2.isAlive) || (this.plrNum == 2 && gameScene.plr1.isAlive)) {
+
+        this.isAlive = false;
+        if(this.plrNum == 1 && gameScene.plr2.isAlive) {
+          gameScene.score2++;
+        } else if(this.plrNum == 2 && gameScene.plr1.isAlive) {
+          gameScene.score1++;
+        }
+        return;
+
+      }
+    }
     
     if(this.grounded) {this.vX *= this.groundFrictionFactor;}
     
@@ -140,6 +157,7 @@ class Player {
   }
   
   drawPlayer() {
+    if(!this.isAlive) {return;}
     fill(50 + (this.pol * 100), 50 - abs(this.pol*25), 50 - (this.pol * 100));
     strokeWeight(2);
     rect(this.x, this.y, this.size, this.size);

@@ -80,8 +80,8 @@ class TitleScene extends Scene {
   runLoop(dT) {
     this.drawBackground();
   
-    updateAndDrawElements(this.sceneElements);
-    updateAndDrawElements(this.menuElements);
+    updateAndDrawElements(this.sceneElements, true);
+    updateAndDrawElements(this.menuElements, true);
     
     this.drawTitle(dT);
     
