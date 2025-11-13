@@ -8,6 +8,8 @@ class GameScene extends Scene {
     this.justEnded = true;
     this.startTime = millis();
     this.paused = false;
+    this.timeBeforeFieldShrink = 5000;
+    this.fieldSize = 600;
     this.score1 = 0;
     this.score2 = 0;
   }
@@ -27,9 +29,9 @@ class GameScene extends Scene {
     append(this.platforms, new Platform(510, 500, 100, 15, 0));
     append(this.platforms, new Platform(90, 325, 100, 15, 0));
     append(this.platforms, new Platform(510, 325, 100, 15, 0));
-    append(this.platforms, new Platform(90, 150, 100, 15, 0));
-    append(this.platforms, new Platform(510, 150, 100, 15, 0));
-    append(this.platforms, new Platform(300, 560, 200, 15, 0)); 
+    append(this.platforms, new Platform(90, 150, 100, 15, 0, true, [20, 150, 250, 150, 300, 1]));
+    append(this.platforms, new Platform(510, 150, 100, 15, 0, true, [350, 150, 580, 150, 300, 2]));
+    append(this.platforms, new Platform(200, 560, 100, 15, 0, true, [200, 560, 400, 560, 300, 1])); 
     let p1 = new Platform(300, 250, 100, 15,-1);
     let p2 = new Platform(300, 400, 100, 15, 1);
     append(this.platforms, p1);
@@ -41,6 +43,11 @@ class GameScene extends Scene {
   }
   
   runLoop(dT) {
+
+    if(millis() - this.startTime > this.timeBeforeFieldShrink) {
+      this.fieldSize -= dT/1000;
+    }
+
     this.drawArena();
     
     updateAndDrawElements(this.platforms, this.activated);
@@ -64,10 +71,10 @@ class GameScene extends Scene {
   
   drawArena() {
     // TODO: design
-    background(10);
+    background(200, 0, 0);
     fill(160);
     strokeWeight(0);
-    rect(300, 300, 585, 585);
+    rect(300, 300, this.fieldSize, this.fieldSize);
     
   }
 
@@ -82,6 +89,7 @@ class GameScene extends Scene {
     } else {
       this.activated = true;
       this.justStarted = false;
+      this.startTime = millis();
     }
   }
 
@@ -111,9 +119,15 @@ class GameScene extends Scene {
       this.plr2.isAlive = true;
       this.plr1.x = 90;
       this.plr1.y = 460;
+      this.plr1.vX = 0;
+      this.plr1.vY = 0;
       this.plr2.x = 510;
       this.plr2.y = 460;
+      this.plr2.vX = 0;
+      this.plr2.vY = 0;
       this.justEnded = true;
+      this.startTime = millis();
+      this.fieldSize = 600;
     }
   }
 }

@@ -13,8 +13,8 @@ class ImgButton extends UIElement {
   }
   
   update() {
-    if(mouseX >= this.x && mouseX <= this.x + this.w && 
-      mouseY >= this.y && mouseY <= this.y + this.h) {
+    if(adjMouseX >= this.x && adjMouseX <= this.x + this.w && 
+      adjMouseY >= this.y && adjMouseY <= this.y + this.h) {
       if(mouseIsPressed) {
         this.wasPressed = true;
       } else {

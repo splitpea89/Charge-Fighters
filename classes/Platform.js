@@ -15,6 +15,7 @@ class Platform extends GameElement{
       this.increment = params[4];
       this.start = params[5]; // either 1 or 2 - first or second point
       this.target = 3 - this.start; // 1 or 2 - opposite of start
+      this.scrolling = params[6]; // 1 or 2 or none. represents which point to tp back to
     }
   }
   
@@ -36,19 +37,39 @@ class Platform extends GameElement{
       
       if(this.x1 != this.x2) {
         if(this.target == 1 && this.x <= this.x1) {
-          this.target = 2;
+          if(this.scrolling == 2) {
+            this.x = this.x2;
+            this.y = this.y2;
+          } else {
+            this.target = 2;
+          }
         } else if(this.target == 2 && this.x >= this.x2) {
-          this.target = 1;
+          if(this.scrolling == 1) {
+            this.x = this.x1;
+            this.y = this.y1;
+          } else {
+            this.target = 1;
+          }
         }
       } else {
         if(this.target == 1 && this.y <= this.y1) {
-          this.target = 2;
+          if(this.scrolling == 2) {
+            this.x = this.x2;
+            this.y = this.y2;
+          } else {
+            this.target = 2;
+          }
         } else if(this.target == 2 && this.y >= this.y2) {
-          this.target = 1;
+          if(this.scrolling == 1) {
+            this.x = this.x1;
+            this.y = this.y1;
+          } else {
+            this.target = 1;
+          }
         }
       }
-      
-    }
+
+     }
     
     
   }

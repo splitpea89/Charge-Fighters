@@ -16,8 +16,8 @@ class RectButton extends UIElement {
   }
   
   update() {
-    if(mouseX >= this.x - (this.w/2) && mouseX <= this.x + (this.w/2) && 
-      mouseY >= this.y - (this.h/2) && mouseY <= this.y + (this.h/2)) {
+    if(adjMouseX >= this.x - (this.w/2) && adjMouseX <= this.x + (this.w/2) && 
+      adjMouseY >= this.y - (this.h/2) && adjMouseY <= this.y + (this.h/2)) {
       if(mouseIsPressed) {
         this.state = 2;
       } else {

@@ -107,7 +107,7 @@ class Player {
     this.x += this.vX; // update velocity
     this.y += this.vY;
 
-    if(this.y > 600) {
+    if(this.y > 300 + gameScene.fieldSize/2 || this.y < 300 - gameScene.fieldSize/2 || this.x > 300 + gameScene.fieldSize/2 || this.x < 300 - gameScene.fieldSize/2) {
 
       if((this.plrNum == 1 && gameScene.plr2.isAlive) || (this.plrNum == 2 && gameScene.plr1.isAlive)) {
 
