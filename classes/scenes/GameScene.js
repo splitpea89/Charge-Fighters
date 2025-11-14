@@ -108,11 +108,11 @@ class GameScene extends Scene {
       rect(300, 300, 600, 600);
       strokeWeight(3);
       stroke(0);
-      textSize(60+5*sin(t/1000));
+      textSize(50+5*sin(t/1000));
       fill(250);
       text(str(txt), 300, 200);
       text(str(this.score1) + "     -     " + str(this.score2), 300, 350);
-      textSize(40);
+      textSize(35);
       text("restarting in: " + str(Math.ceil(t/1000)), 300, 500)
     } else {
       this.plr1.isAlive = true;

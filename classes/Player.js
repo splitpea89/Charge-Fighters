@@ -13,7 +13,9 @@ class Player {
     this.overMaxSpeedPenaltyFactor = 0.95;
     this.torque = 0.4;
     this.gravity = 0.25;
-    this.jumpForce = 7.5;
+    this.jumpForce = 5;
+    this.jumping = false;
+    this.jumpStart = 0;
     this.grounded = false;
     this.groundFrictionFactor = 0.96;
     this.magnetismCoef = 1.5;
@@ -68,10 +70,9 @@ class Player {
         this.vX += this.torque;
       }
       // Jumping
-      if(keyIsDown(87) && this.grounded) { // 'W' TODO: unset grounded after sliding off platform? coyote time?
-        this.grounded = false;
-        this.vY = min(-this.jumpForce, this.vY - this.jumpForce);
-      }
+      if(keyIsDown(87)) { // 'W' TODO: unset grounded after sliding off platform? coyote time?
+        this.handleJump(87);
+      } else {this.jumping = false;}
       // Polarity
       if(keyIsDown(83)) { // 'S'
         if(!this.polKeyWasDown) {
@@ -89,10 +90,10 @@ class Player {
         this.vX += this.torque;
       }
       // Jumping
-      if(keyIsDown(UP_ARROW) && this.grounded) {
-        this.grounded = false;
-        this.vY -= this.jumpForce;
-      }
+      if(keyIsDown(UP_ARROW)) {
+        this.handleJump(UP_ARROW);
+      } else {this.jumping = false;}
+      console.log(this.jumping);
       // Polarity
       if(keyIsDown(DOWN_ARROW)) {
         if(!this.polKeyWasDown) {
@@ -164,6 +165,20 @@ class Player {
     textSize(11);
     fill(255);
     text(str(this.plrNum), this.x, this.y+(this.size/5));
+  }
+
+  handleJump(jumpKey) {
+    if(this.grounded) {
+      this.grounded = false;
+      this.vY = -this.jumpForce;
+      this.jumping = true;
+      this.jumpStart = millis();
+    } else if(this.jumping) {
+      if(!keyIsDown(jumpKey) || millis() - this.jumpStart > 200) {
+        this.jumping = false;
+      }
+      this.vY = -this.jumpForce;
+    }
   }
   
   changePolarity() {
