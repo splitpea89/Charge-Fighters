@@ -15,7 +15,7 @@ function updateAndDrawElements(elements, activated) {
 }
 
 function updateAndDrawPlayers(plr1, plr2, activated, gameScene) {
-  if(activated) {
+  if(activated && !gameScene.paused) {
     plr1.update(gameScene);
     plr2.update(gameScene);
   }
@@ -30,7 +30,10 @@ function overlapRects(x1, y1, w1, h1, x2, y2, w2, h2) {
     let halfH1 = h1 / 2;
     let halfH2 = h2 / 2;
 
-    return(abs(x2 - x1) < halfW1 + halfW2 && abs(y2 - y1) < halfH1 + halfH2);
+    let overlapX = halfW1 + halfW2 - abs(x2-x1);
+    let overlapY = halfH1 + halfH2 - abs(x2-x1);
+    
+    return([abs(x2 - x1) < halfW1 + halfW2 && abs(y2 - y1) < halfH1 + halfH2, overlapX, overlapY]); // [bool isOverlapping, num xOverlap, num yOverlap]
 }
 
 function findClosestPointOnLineSeg(px, py, x1, y1, x2, y2) {

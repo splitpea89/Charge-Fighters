@@ -16,8 +16,13 @@ class Player {
     this.jumpForce = 5;
     this.jumping = false;
     this.jumpStart = 0;
+    this.onWallLeniency = 30; // increase to increase leniency time for wall jump after hitting wall
+    this.onWall = 0;
+    this.wallSide = 0; // 1 if player is to the right, -1 if to the left
+    this.wallJumpKickback = 10; // add this velocity horizontally away from wall
     this.grounded = false;
-    this.groundFrictionFactor = 0.96;
+    this.groundFrictionFactor = 0.92;
+    this.generalSlowdownFactor = 0.96;
     this.magnetismCoef = 1.5;
     this.distancePower = 1.3;
     this.polKeyWasDown = false;
@@ -25,7 +30,7 @@ class Player {
   }
   
   update(gameScene) {
-    // magnetism TODO: problem: rectangles x, y defined at their top left corner
+    // magnetism
     if(!this.isAlive) {return;}
 
     for(let i in gameScene.polarElements) {
@@ -54,6 +59,8 @@ class Player {
 
         }
     }
+
+    this.vX *= this.generalSlowdownFactor;
     
     if(this.vY <= this.maxVY) {
       this.vY += this.gravity; // gravity
@@ -93,7 +100,6 @@ class Player {
       if(keyIsDown(UP_ARROW)) {
         this.handleJump(UP_ARROW);
       } else {this.jumping = false;}
-      console.log(this.jumping);
       // Polarity
       if(keyIsDown(DOWN_ARROW)) {
         if(!this.polKeyWasDown) {
@@ -136,21 +142,41 @@ class Player {
       let pCenterX = p.x;
       let pCenterY = p.y;
 
-      if(overlapRects(this.x, this.y, this.size, this.size, p.x, p.y, p.w, p.h)) {
+      let info = overlapRects(this.x, this.y, this.size, this.size, p.x, p.y, p.w, p.h);
+
+      if(info[0]) {
         
         // Collision
         
-        if (this.y < pCenterY) {
-          // landed on top
-          this.y = pCenterY - (pHalfH + halfSize);
-          this.vY = 0;
-          this.grounded = true;
+        if(info[2] <= info[1]) {
+          if (this.y < pCenterY) {
+            // landed on top
+            this.y = pCenterY - (pHalfH + halfSize);
+            this.vY = 0;
+            this.grounded = true;
+          } else {
+            // hit from below
+            this.y = pCenterY + (pHalfH + halfSize);
+            this.vY = 0;
+          } 
         } else {
-          // hit from below
-          this.y = pCenterY + (pHalfH + halfSize);
-          this.vY = 0;
-        } // TODO: account for side collision? make platform thinner?
+          if (this.x < pCenterX) {
+            // hit left
+            this.x = pCenterX - (pHalfW + halfSize);
+            this.vX = 0.1;
+            this.onWall = this.onWallLeniency;
+            this.wallSide = -1;
+          } else {
+            // hit right
+            this.x = pCenterX + (pHalfW + halfSize);
+            this.vX = -0.1;
+            this.onWall = this.onWallLeniency;
+            this.wallSide = 1;
+          } 
+        }
       }
+
+      this.onWall--;
     }
 
     // Player Collisions
@@ -173,7 +199,18 @@ class Player {
       this.vY = -this.jumpForce;
       this.jumping = true;
       this.jumpStart = millis();
-    } else if(this.jumping) {
+    }
+
+    if(this.onWall > 0) {
+      this.onWall = 0;
+      this.vY = -this.jumpForce;
+      this.jumping = true;
+      this.jumpStart = millis();
+      this.vX += this.wallJumpKickback * this.wallSide;
+      // add horizontal velocity away from wall
+    }
+
+    if(this.jumping) {
       if(!keyIsDown(jumpKey) || millis() - this.jumpStart > 200) {
         this.jumping = false;
       }

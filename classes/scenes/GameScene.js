@@ -3,6 +3,7 @@ class GameScene extends Scene {
     super();
     this.platforms = [];
     this.polarElements = [];
+    this.UIElements = [];
     this.activated = false;
     this.justStarted = true;
     this.justEnded = true;
@@ -12,6 +13,7 @@ class GameScene extends Scene {
     this.fieldSize = 600;
     this.score1 = 0;
     this.score2 = 0;
+    this.exit = false;
   }
   
   init() {
@@ -25,15 +27,21 @@ class GameScene extends Scene {
     append(this.polarElements, this.plr2);
 
     {
-    append(this.platforms, new Platform(90, 500, 100, 15, 0));
-    append(this.platforms, new Platform(510, 500, 100, 15, 0));
-    append(this.platforms, new Platform(90, 325, 100, 15, 0));
-    append(this.platforms, new Platform(510, 325, 100, 15, 0));
-    append(this.platforms, new Platform(90, 150, 100, 15, 0, true, [20, 150, 250, 150, 300, 1]));
-    append(this.platforms, new Platform(510, 150, 100, 15, 0, true, [350, 150, 580, 150, 300, 2]));
-    append(this.platforms, new Platform(200, 560, 100, 15, 0, true, [200, 560, 400, 560, 300, 1])); 
-    let p1 = new Platform(300, 250, 100, 15,-1);
-    let p2 = new Platform(300, 400, 100, 15, 1);
+
+    append(this.platforms, new Platform(10, 300, 20, 600, 0));
+    append(this.platforms, new Platform(590, 300, 20, 600, 0));
+    append(this.platforms, new Platform(300, 10, 600, 20, 0));
+
+
+    append(this.platforms, new Platform(110, 500, 100, 20, 0));
+    append(this.platforms, new Platform(490, 500, 100, 20, 0));
+    append(this.platforms, new Platform(110, 325, 100, 20, 0));
+    append(this.platforms, new Platform(490, 325, 100, 20, 0));
+    append(this.platforms, new Platform(90, 150, 100, 20, 0, true, [20, 150, 250, 150, 300, 1]));
+    append(this.platforms, new Platform(510, 150, 100, 20, 0, true, [350, 150, 580, 150, 300, 2]));
+    append(this.platforms, new Platform(200, 560, 100, 20, 0, true, [200, 560, 400, 560, 300, 1])); 
+    let p1 = new Platform(300, 250, 100, 20,-1);
+    let p2 = new Platform(300, 400, 100, 20, 1);
     append(this.platforms, p1);
     append(this.platforms, p2);
     append(this.polarElements, p1);
@@ -45,12 +53,12 @@ class GameScene extends Scene {
   runLoop(dT) {
 
     if(millis() - this.startTime > this.timeBeforeFieldShrink) {
-      this.fieldSize -= dT/1000;
+      this.fieldSize -= dT/400;
     }
 
     this.drawArena();
     
-    updateAndDrawElements(this.platforms, this.activated);
+    updateAndDrawElements(this.platforms, this.activated && !this.paused);
     updateAndDrawPlayers(this.plr1, this.plr2, this.activated, this);
     if(!this.plr1.isAlive || !this.plr2.isAlive) {
       if(this.justEnded == true) {
@@ -64,9 +72,21 @@ class GameScene extends Scene {
 
     if(this.justStarted) {
       this.drawStartCountdown();
-    } else if (this.paused) {
+    } else {
+      if(keyIsDown(27) && !this.paused) {
+        this.paused = true;
+        append(this.UIElements, new RectButton(300, 250, 150, 50, 10, color(0, 110, 150), color(0, 50, 100), "Continue", 20, 255, () => {this.paused = false; this.UIElements = [];})); // looked up how to pass functions, this syntax passes an inline function while automatically binding "this" to current instance of GameScene
+        append(this.UIElements, new RectButton(300, 400, 150, 50, 10, color(0, 110, 150), color(0, 50, 100), "Exit", 20, 255, () => {this.exit = true;}));
+      }
+      if (this.paused) {
       // TODO: pause menu
+      this.drawPauseMenu();
+      }
     }
+
+    updateAndDrawElements(this.UIElements, true);
+
+    if(this.exit) {return new TitleScene;}
   }
   
   drawArena() {
@@ -91,6 +111,11 @@ class GameScene extends Scene {
       this.justStarted = false;
       this.startTime = millis();
     }
+  }
+
+  drawPauseMenu() {
+    fill(0, 0, 0, 120);
+    rect(300, 300, 600, 600);
   }
 
   doWinSequence() { // startTime is set to the time when round ended

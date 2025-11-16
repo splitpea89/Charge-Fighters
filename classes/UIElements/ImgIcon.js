@@ -18,7 +18,7 @@ class ImgIcon extends UIElement {
   
   drawElement() {
     push();
-    translate(this.x, this.y);
+    translate(this.x-(this.w/2), this.y-(this.h/2));
     rotate(this.r);
     image(this.img, 0, 0, this.w, this.h); 
     pop();
