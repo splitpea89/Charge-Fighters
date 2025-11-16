@@ -74,7 +74,8 @@ class TitleScene extends Scene {
   
   startGame() {
     console.log("start game") 
-    this.nextScene = (new GameScene(new ExampleMap()));
+    this.nextScene = (new MapSelectScene());
+    // this.nextScene = new GameScene(new ExampleMap()); // override select scene
   }
   
   runLoop(dT) {

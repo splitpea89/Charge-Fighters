@@ -13,8 +13,8 @@ class ImgButton extends UIElement {
   }
   
   update() {
-    if(adjMouseX >= this.x && adjMouseX <= this.x + this.w && 
-      adjMouseY >= this.y && adjMouseY <= this.y + this.h) {
+    if(adjMouseX >= this.x-(this.w/2) && adjMouseX <= this.x+(this.w/2) && 
+      adjMouseY >= this.y-(this.h/2) && adjMouseY <= this.y+(this.h/2)) {
       if(mouseIsPressed) {
         this.wasPressed = true;
       } else {
@@ -22,7 +22,7 @@ class ImgButton extends UIElement {
           this.func();
           this.state = !this.state;
         }
-        wasPressed = false;
+        this.wasPressed = false;
       }
     } else {
       this.state = 0;
@@ -31,10 +31,10 @@ class ImgButton extends UIElement {
   
   drawElement() {
     
-    if(this.state) {
-      image(this.img1, this.x, this.y, this.w, this.h);
+    if(!this.state && !this.img2 == undefined) {
+      image(this.img2, this.x-(this.w/2), this.y-(this.h/2), this.w, this.h);
     } else {
-      image(this.img2, this.x, this.y, this.w, this.h);
+      image(this.img1, this.x-(this.w/2), this.y-(this.h/2), this.w, this.h);
     }
     
   }

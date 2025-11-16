@@ -8,7 +8,7 @@ let adjMouseY;
 let icon;
 
 function preload() {
-  icon = loadImage("placeholder-icon.png");
+  icon = loadImage("assets/placeholder-icon.png");
 }
 
 function setup() {

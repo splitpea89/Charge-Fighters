@@ -5,6 +5,8 @@ class ExampleMap extends Map {
         this.p1SpawnY = 460;
         this.p2SpawnX = 510;
         this.p2SpawnY = 460;
+        this.name = "Example Map";
+        this.imgPath = "assets/ExampleMap.png";
     }
 
     addElements(platformsArr, polarElementsArr) {
