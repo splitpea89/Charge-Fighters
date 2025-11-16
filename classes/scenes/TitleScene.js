@@ -42,7 +42,7 @@ class TitleScene extends Scene {
       this.menuElements = [];
       this.activeMenu = 1;
       this.volumeSlider.position(200, 300);
-      this.SFXSlider.position(200, 375);
+      this.SFXSlider.position(200, 375); // TODO: fix screen position
       
       append(this.menuElements, new ImgIcon(370, 302, 20, 20, 0, icon));
       append(this.menuElements, new ImgIcon(370, 377, 20, 20, 0, icon)); // TODO: sound functionality
@@ -63,8 +63,8 @@ class TitleScene extends Scene {
   "Power-ups appear to give strategic advantages, and the arena grows more dangerous over time. \n\n" +
   "Score points by defeating opponents before the arena becomes too hazardous!", 15, color(50), color(220)));
       
-      append(this.menuElements, new TextBox(150, 425, 250, 80, 0, "P1 Controls: \nMove: A and D\nJump: W\nSwitch Polarity: S", 15, color(50), color(220)));
-      append(this.menuElements, new TextBox(450, 425, 250, 80, 0, "P2 Controls: \nMove: Left Arrow and Right Arrow\nJump: Up arrow\nSwitch Polarity: Down arrow", 15, color(50), color(220)));
+      append(this.menuElements, new TextBox(150, 425, 250, 80, 0, "P1 Controls: \nMove: A and D\nJump/Wall Jump: W\nSwitch Polarity: S", 15, color(50), color(220)));
+      append(this.menuElements, new TextBox(450, 425, 250, 80, 0, "P2 Controls: \nMove: Left Arrow and Right Arrow\nJump/Wall Jump: Up arrow\nSwitch Polarity: Down arrow", 15, color(50), color(220)));
       
       
       append(this.menuElements, new RectButton(300, 537, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "BACK", 15, color(10), this.startMenu.bind(this)));
@@ -74,7 +74,7 @@ class TitleScene extends Scene {
   
   startGame() {
     console.log("start game") 
-    this.nextScene = (new GameScene());
+    this.nextScene = (new GameScene(new ExampleMap()));
   }
   
   runLoop(dT) {

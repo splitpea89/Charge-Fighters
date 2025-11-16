@@ -6,6 +6,8 @@ class Player {
     this.vY = 0;
     this.plrNum = plrNum; // 1 or 2
     this.pol = pol; // -1 or 1
+    this.changePolCooldown = 60; // cooldown for changing polarity
+    this.changePolCounter = 0;
     this.isAlive = true;
     this.size = 20;
     this.maxVX = 6;
@@ -16,15 +18,16 @@ class Player {
     this.jumpForce = 5;
     this.jumping = false;
     this.jumpStart = 0;
-    this.onWallLeniency = 30; // increase to increase leniency time for wall jump after hitting wall
+    this.onWallLeniency = 10; // increase to increase leniency time for wall jump after hitting wall
     this.onWall = 0;
     this.wallSide = 0; // 1 if player is to the right, -1 if to the left
     this.wallJumpKickback = 10; // add this velocity horizontally away from wall
-    this.grounded = false;
+    this.grounded = 0;
+    this.coyoteTime = 10; // increase to increase coyote time
     this.groundFrictionFactor = 0.92;
     this.generalSlowdownFactor = 0.96;
     this.magnetismCoef = 1.5;
-    this.distancePower = 1.3;
+    this.distancePower = 1.36;
     this.polKeyWasDown = false;
     this.activeParticles = [];
   }
@@ -43,10 +46,10 @@ class Player {
             let dx;
             let dy;
 
-            if(element.constructor === Platform && false) { // TODO: implement function
-                let closestP = findClosestPointOnLineSeg() // <-
-                dx = closestP[0];
-                dy = closestP[1];
+            if(element.constructor === Platform) { // TODO: this will break with vertical polar platforms
+                let closestP = findClosestPointOnLineSeg(this.x, this.y, element.x-(element.w/2), element.y, element.x+(element.w/2), element.y) // <-
+                dx = closestP[0] - this.x;
+                dy = closestP[1] - this.y;
             } else {
                 dx = element.x - this.x;
                 dy = element.y - this.y;
@@ -83,7 +86,9 @@ class Player {
       // Polarity
       if(keyIsDown(83)) { // 'S'
         if(!this.polKeyWasDown) {
-          this.changePolarity();
+          if(this.changePolCounter <= 0) {
+            this.changePolarity();
+          }
         }
         this.polKeyWasDown = true;
       } else {
@@ -153,7 +158,7 @@ class Player {
             // landed on top
             this.y = pCenterY - (pHalfH + halfSize);
             this.vY = 0;
-            this.grounded = true;
+            this.grounded = this.coyoteTime;
           } else {
             // hit from below
             this.y = pCenterY + (pHalfH + halfSize);
@@ -175,9 +180,11 @@ class Player {
           } 
         }
       }
-
-      this.onWall--;
     }
+
+    this.onWall--;
+    this.grounded--;
+    this.changePolCounter--;
 
     // Player Collisions
     if(this.plrNum == 1) {handlePlayerCollisions(this, gameScene.plr2, gameScene);}
@@ -194,8 +201,8 @@ class Player {
   }
 
   handleJump(jumpKey) {
-    if(this.grounded) {
-      this.grounded = false;
+    if(this.grounded > 0) {
+      this.grounded = 0;
       this.vY = -this.jumpForce;
       this.jumping = true;
       this.jumpStart = millis();
@@ -220,6 +227,7 @@ class Player {
   
   changePolarity() {
     this.pol *= -1;
+    this.changePolCounter = this.changePolCooldown;
     // TODO: add effects and cooldown
     Particle.createParticleExplosion(this.x, this.y, color(50 + (this.pol * 100), 50 - abs(this.pol*25), 50 - (this.pol * 100)), 10, 0.9, 25, 25, this.activeParticles);
   }

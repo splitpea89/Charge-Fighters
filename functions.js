@@ -37,11 +37,21 @@ function overlapRects(x1, y1, w1, h1, x2, y2, w2, h2) {
 }
 
 function findClosestPointOnLineSeg(px, py, x1, y1, x2, y2) {
-    // where (px, py) is a point and,
-    // (x1, y1) and (x2, y2) are the endpoints of a line segment,
-    // return the point (x, y) on the given line segment which minimizes the distance to (px, py)
-    // in the form of an array of length 2 where arr[0] = x and arr[1] = y
+  // Line segment direction vector
+  let dx = x2 - x1;
+  let dy = y2 - y1;
 
+  // Vector from x1,y1 to the point
+  let t = ((px - x1) * dx + (py - y1) * dy) / (dx*dx + dy*dy);
+
+  // Clamp t to the segment [0, 1]
+  t = Math.max(0, Math.min(1, t));
+
+  // Closest point on segment
+  let closestX = x1 + t * dx;
+  let closestY = y1 + t * dy;
+
+  return [closestX, closestY];
 
 }
 

@@ -1,5 +1,5 @@
 class GameScene extends Scene {
-  constructor() {
+  constructor(map) {
     super();
     this.platforms = [];
     this.polarElements = [];
@@ -14,39 +14,21 @@ class GameScene extends Scene {
     this.score1 = 0;
     this.score2 = 0;
     this.exit = false;
+    this.map = map;
   }
   
   init() {
     background(10);
     console.log("init game scene");
     
-    this.plr1 = new Player(90, 460, 1, 1);
-    this.plr2 = new Player(510, 460, 1, 2);
+    this.plr1 = new Player(this.map.p1SpawnX, this.map.p1SpawnY, 1, 1);
+    this.plr2 = new Player(this.map.p2SpawnX, this.map.p2SpawnY, 1, 2);
 
     append(this.polarElements, this.plr1);
     append(this.polarElements, this.plr2);
 
-    {
-
-    append(this.platforms, new Platform(10, 300, 20, 600, 0));
-    append(this.platforms, new Platform(590, 300, 20, 600, 0));
-    append(this.platforms, new Platform(300, 10, 600, 20, 0));
-
-
-    append(this.platforms, new Platform(110, 500, 100, 20, 0));
-    append(this.platforms, new Platform(490, 500, 100, 20, 0));
-    append(this.platforms, new Platform(110, 325, 100, 20, 0));
-    append(this.platforms, new Platform(490, 325, 100, 20, 0));
-    append(this.platforms, new Platform(90, 150, 100, 20, 0, true, [20, 150, 250, 150, 300, 1]));
-    append(this.platforms, new Platform(510, 150, 100, 20, 0, true, [350, 150, 580, 150, 300, 2]));
-    append(this.platforms, new Platform(200, 560, 100, 20, 0, true, [200, 560, 400, 560, 300, 1])); 
-    let p1 = new Platform(300, 250, 100, 20,-1);
-    let p2 = new Platform(300, 400, 100, 20, 1);
-    append(this.platforms, p1);
-    append(this.platforms, p2);
-    append(this.polarElements, p1);
-    append(this.polarElements, p2);
-    } // create Platform objects
+    this.map.addElements(this.platforms, this.polarElements);
+    // create Platform objects
     
   }
   
