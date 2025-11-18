@@ -31,7 +31,7 @@ function overlapRects(x1, y1, w1, h1, x2, y2, w2, h2) {
     let halfH2 = h2 / 2;
 
     let overlapX = halfW1 + halfW2 - abs(x2-x1);
-    let overlapY = halfH1 + halfH2 - abs(x2-x1);
+    let overlapY = halfH1 + halfH2 - abs(y2-y1);
     
     return([abs(x2 - x1) < halfW1 + halfW2 && abs(y2 - y1) < halfH1 + halfH2, overlapX, overlapY]); // [bool isOverlapping, num xOverlap, num yOverlap]
 }

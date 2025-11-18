@@ -2,6 +2,7 @@ class GameScene extends Scene {
   constructor(map) {
     super();
     this.platforms = [];
+    this.spikes = [];
     this.polarElements = [];
     this.UIElements = [];
     this.activated = false;
@@ -27,8 +28,8 @@ class GameScene extends Scene {
     append(this.polarElements, this.plr1);
     append(this.polarElements, this.plr2);
 
-    this.map.addElements(this.platforms, this.polarElements);
-    // create Platform objects
+    this.map.addElements(this.platforms, this.spikes, this.polarElements);
+    // create objects
     
   }
   
@@ -41,6 +42,7 @@ class GameScene extends Scene {
     this.drawArena();
     
     updateAndDrawElements(this.platforms, this.activated && !this.paused);
+    updateAndDrawElements(this.spikes, this.activated && !this.paused);
     updateAndDrawPlayers(this.plr1, this.plr2, this.activated, this);
     if(!this.plr1.isAlive || !this.plr2.isAlive) {
       if(this.justEnded == true) {

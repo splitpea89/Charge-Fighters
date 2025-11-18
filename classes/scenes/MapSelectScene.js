@@ -8,6 +8,7 @@ class MapSelectScene extends Scene {
     this.imgIcon = new ImgIcon(300, 300, 110, 110, 0, icon);
     this.mapLabel = new TextBox(300, 210, 200, 20, 0, this.maps[0].name, 15, color(0, 0, 0, 0), color(20));
     this.returnScene = false;
+    this.backToMain = false;
   }
   
   init() {
@@ -34,6 +35,7 @@ class MapSelectScene extends Scene {
     append(this.UIElements, new ImgButton(200, 300, 70, 50, loadImage("assets/LeftArrow.png"), undefined, () => this.scrollLeft()));
     append(this.UIElements, new ImgButton(400, 300, 70, 50, loadImage("assets/RightArrow.png"), undefined, () => this.scrollRight()));
     append(this.UIElements, new RectButton(300, 420, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Start", 15, color(255), () => {this.returnScene = true;}));
+    append(this.UIElements, new RectButton(300, 520, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Exit", 15, color(255), () => {this.backToMain = true;}));
 
   }
   
@@ -50,6 +52,10 @@ class MapSelectScene extends Scene {
 
     if(this.returnScene) {
         return(new GameScene(this.maps[this.currentIx]));
+    }
+
+    if(this.backToMain) {
+        return(new TitleScene());
     }
   }
   

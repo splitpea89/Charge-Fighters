@@ -168,13 +168,13 @@ class Player {
           if (this.x < pCenterX) {
             // hit left
             this.x = pCenterX - (pHalfW + halfSize);
-            this.vX = 0.1;
+            this.vX = 0;
             this.onWall = this.onWallLeniency;
             this.wallSide = -1;
           } else {
             // hit right
             this.x = pCenterX + (pHalfW + halfSize);
-            this.vX = -0.1;
+            this.vX = 0;
             this.onWall = this.onWallLeniency;
             this.wallSide = 1;
           } 
@@ -188,6 +188,12 @@ class Player {
 
     // Player Collisions
     if(this.plrNum == 1) {handlePlayerCollisions(this, gameScene.plr2, gameScene);}
+
+    // Spike Collisions
+    for(let i in gameScene.spikes) {
+      let spikes = gameScene.spikes[i];
+      if(overlapRects(this.x, this.y, this.size, this.size, spikes.x, spikes.y, spikes.w, spikes.h)[0]) {this.isAlive = false;}
+    }
   }
   
   drawPlayer() {
