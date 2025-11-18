@@ -52,7 +52,7 @@ class RectButton extends UIElement {
     
     
     fill(this.txtCol);
-    text(this.txt, this.x, this.y + (this.h/2.5), this.w, this.h);
+    text(this.txt, this.x, this.y, this.w, this.h);
   }
   
 }

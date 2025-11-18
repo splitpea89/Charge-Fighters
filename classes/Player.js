@@ -38,7 +38,6 @@ class Player {
 
     for(let i in gameScene.polarElements) {
         let element = gameScene.polarElements[i];
-
         let mag = dist(this.x, this.y, element.x, element.y);
 
         if(mag <= 100 && mag > 0) {
@@ -54,6 +53,9 @@ class Player {
                 dx = element.x - this.x;
                 dy = element.y - this.y;
             }
+
+            if(element.constructor === Player) { dx *=1.5; dy *=1.5;}
+
             this.vX -= this.pol * element.pol * dx * this.magnetismCoef  / (pow(mag, this.distancePower))
             this.vY -= this.pol * element.pol * dy * this.magnetismCoef / (pow(mag, this.distancePower))
 
@@ -203,7 +205,7 @@ class Player {
     rect(this.x, this.y, this.size, this.size);
     textSize(11);
     fill(255);
-    text(str(this.plrNum), this.x, this.y+(this.size/5));
+    text(str(this.plrNum), this.x, this.y);
   }
 
   handleJump(jumpKey) {

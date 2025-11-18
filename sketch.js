@@ -14,6 +14,7 @@ function preload() {
 function setup() {
   createCanvas(600*SCALE_FACTOR, 600*SCALE_FACTOR);
   rectMode(CENTER);
+  textAlign(CENTER, CENTER);
   
   startTime = millis();
   lastTime = millis();

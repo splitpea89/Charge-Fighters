@@ -2,7 +2,7 @@ class MapSelectScene extends Scene {
   constructor(map) {
     super();
     this.UIElements = [];
-    this.maps = [new ExampleMap()]; //array of maps in rotation
+    this.maps = [new ExampleMap(), new PolkaDots()]; //array of maps in rotation
     this.mapImgs = [];
     this.currentIx = 0;
     this.imgIcon = new ImgIcon(300, 300, 110, 110, 0, icon);
@@ -14,12 +14,13 @@ class MapSelectScene extends Scene {
   init() {
     console.log("init select scene");
     
-    for (let map of this.maps) {
+    for (let i in this.maps) {
+        let map = this.maps[i]
         loadImage(
             map.imgPath,
 
             // on success
-            img => this.mapImgs.push(img),
+            img => this.mapImgs[i] = img,
 
             // on failure
             err => {
@@ -66,6 +67,7 @@ class MapSelectScene extends Scene {
         this.currentIx--;
     }
     this.mapLabel.text = this.maps[this.currentIx].name;
+    console.log("Label changed to:", this.mapLabel.text);
   }
 
   scrollRight() {
@@ -74,7 +76,7 @@ class MapSelectScene extends Scene {
     } else {
         this.currentIx++;
     }
-    this.mapLabel.text = this.maps[this.currentIx].name;
+    this.mapLabel.txt = this.maps[this.currentIx].name;
   }
 
   drawBackground() {

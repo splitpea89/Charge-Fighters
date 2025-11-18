@@ -8,7 +8,6 @@ class TitleScene extends Scene {
   }
   
   init() {
-    textAlign(CENTER);
     textStyle(BOLD);
     append(this.sceneElements, new LineMagnet(60, 300, 3.2, 2.8, 1, -0.05, 1.3));
     append(this.sceneElements, new LineMagnet(550, 250, 2.8, 3.2, 1, 0.05, 1.8));
@@ -106,7 +105,7 @@ class TitleScene extends Scene {
       let c = (i/8) * 255;
       fill(c*0.7, c*0.2, c);
       textSize(55 + 1.5 * sin(frameCount/20));
-      text("CHARGE  FIGHTERS", 300+(i), 85+(i));
+      text("CHARGE  FIGHTERS", 300+(i), 65+(i));
     }
   }
 }

@@ -81,9 +81,9 @@ class Platform extends GameElement{
     textSize(20);
     fill(255);
     if(this.pol == 1) {
-      text("+", this.x, this.y+this.h/3);
+      text("+", this.x, this.y);
     } else if(this.pol == -1) {
-      text("-", this.x, this.y+this.h/3);
+      text("-", this.x, this.y);
     }
   }
 }

@@ -126,12 +126,12 @@ class GameScene extends Scene {
     } else {
       this.plr1.isAlive = true;
       this.plr2.isAlive = true;
-      this.plr1.x = 90;
-      this.plr1.y = 460;
+      this.plr1.x = this.map.p1SpawnX;
+      this.plr1.y = this.map.p1SpawnY;
       this.plr1.vX = 0;
       this.plr1.vY = 0;
-      this.plr2.x = 510;
-      this.plr2.y = 460;
+      this.plr2.x = this.map.p2SpawnX;
+      this.plr2.y = this.map.p2SpawnY;
       this.plr2.vX = 0;
       this.plr2.vY = 0;
       this.justEnded = true;
