@@ -66,8 +66,7 @@ class MapSelectScene extends Scene {
     } else {
         this.currentIx--;
     }
-    this.mapLabel.text = this.maps[this.currentIx].name;
-    console.log("Label changed to:", this.mapLabel.text);
+    this.mapLabel.txt = this.maps[this.currentIx].name;
   }
 
   scrollRight() {

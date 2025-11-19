@@ -21,7 +21,7 @@ class Player {
     this.onWallLeniency = 10; // increase to increase leniency time for wall jump after hitting wall
     this.onWall = 0;
     this.wallSide = 0; // 1 if player is to the right, -1 if to the left
-    this.wallJumpKickback = 10; // add this velocity horizontally away from wall
+    this.wallJumpKickback = 7; // add this velocity horizontally away from wall
     this.grounded = 0;
     this.coyoteTime = 10; // increase to increase coyote time
     this.groundFrictionFactor = 0.92;
@@ -38,21 +38,16 @@ class Player {
 
     for(let i in gameScene.polarElements) {
         let element = gameScene.polarElements[i];
-        let mag = dist(this.x, this.y, element.x, element.y);
+        let dx = element.x - this.x;
+        let dy = element.y - this.y;
+        if(element.constructor === Platform) { // TODO: this will break with vertical polar platforms
+          let closestP = findClosestPointOnLineSeg(this.x, this.y, element.x-(element.w/2), element.y, element.x+(element.w/2), element.y);
+          dx = closestP[0] - this.x;
+          dy = closestP[1] - this.y;
+        }
+        let mag = dist(0, 0, dx, dy);
 
         if(mag <= 100 && mag > 0) {
-
-            let dx;
-            let dy;
-
-            if(element.constructor === Platform) { // TODO: this will break with vertical polar platforms
-                let closestP = findClosestPointOnLineSeg(this.x, this.y, element.x-(element.w/2), element.y, element.x+(element.w/2), element.y) // <-
-                dx = closestP[0] - this.x;
-                dy = closestP[1] - this.y;
-            } else {
-                dx = element.x - this.x;
-                dy = element.y - this.y;
-            }
 
             if(element.constructor === Player) { dx *=1.5; dy *=1.5;}
 
@@ -110,7 +105,9 @@ class Player {
       // Polarity
       if(keyIsDown(DOWN_ARROW)) {
         if(!this.polKeyWasDown) {
-          this.changePolarity();
+          if(this.changePolCounter <= 0) {
+            this.changePolarity();
+          }
         }
         this.polKeyWasDown = true;
       } else {

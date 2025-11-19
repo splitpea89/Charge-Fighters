@@ -26,6 +26,8 @@ class LineMagnet extends UIElement {
     rotate(this.r);
     scale(this.scl);
 
+    textAlign(CENTER, CENTER);
+
     textSize(14);
 
     strokeWeight(2);
@@ -33,12 +35,12 @@ class LineMagnet extends UIElement {
     fill(0, 0, 200);
     rect(-20, 0, 40, 20);
     fill(0);
-    text("-", -30, 5);
+    text("-", -25, 0);
 
     fill(200, 0, 0);
     rect(20, 0, 40, 20);
     fill(0);
-    text("+", 30, 5);
+    text("+", 25, 0);
 
     pop();
   }
