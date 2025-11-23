@@ -7,6 +7,8 @@ class ExampleMap extends Map {
         this.p2SpawnY = 460;
         this.name = "Example Map";
         this.imgPath = "assets/ExampleMap.png";
+        this.openPowerUpLocs = [[300, 160], [300, 280]];
+        this.filledPowerUpLocs = [];
     }
 
     addElements(platformsArr, spikesArr, polarElementsArr) {
@@ -33,6 +35,17 @@ class ExampleMap extends Map {
     }
 
     getPowerUpLoc() {
+        if(this.openPowerUpLocs.length == 0) {return -1;}
+        let loc = random(this.openPowerUpLocs);
+        this.openPowerUpLocs.splice(this.openPowerUpLocs.indexOf(loc), 1);
+        append(this.filledPowerUpLocs, loc);
+        return loc;
+    }
 
+    resetPowerUps() {
+        for(let i in this.filledPowerUpLocs) {
+            append(this.openPowerUpLocs, this.filledPowerUpLocs[i]);
+        }
+        this.filledPowerUpLocs = [];
     }
 }

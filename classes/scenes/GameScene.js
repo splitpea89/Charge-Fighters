@@ -1,9 +1,11 @@
 class GameScene extends Scene {
   constructor(map) {
     super();
+    this.powerUpPool = [MagnetismUp]; 
     this.platforms = [];
     this.spikes = [];
     this.polarElements = [];
+    this.powerups = [];
     this.UIElements = [];
     this.activated = false;
     this.justStarted = true;
@@ -35,14 +37,22 @@ class GameScene extends Scene {
   
   runLoop(dT) {
 
-    if(millis() - this.startTime > this.timeBeforeFieldShrink) {
-      this.fieldSize -= dT/400;
+    if(millis() - this.startTime > this.timeBeforeFieldShrink) { // enough time has passed for screen shrink and powerup spawn
+      this.fieldSize -= dT/300;
+      if(random(0, 1000) > 975) { // powerup spawn try
+        let loc = this.map.getPowerUpLoc();
+        if(loc != -1) {
+          let powerUp = random(this.powerUpPool);
+          append(this.powerups, new powerUp(loc[0], loc[1]))
+        }
+      }
     }
 
     this.drawArena();
     
     updateAndDrawElements(this.platforms, this.activated && !this.paused);
     updateAndDrawElements(this.spikes, this.activated && !this.paused);
+    updateAndDrawElements(this.powerups, this.activated && !this.paused);
     updateAndDrawPlayers(this.plr1, this.plr2, this.activated, this);
     if(!this.plr1.isAlive || !this.plr2.isAlive) {
       if(this.justEnded == true) {
@@ -135,6 +145,12 @@ class GameScene extends Scene {
       this.plr2.vX = 0;
       this.plr2.vY = 0;
       this.justEnded = true;
+      for(let powerup of this.powerups) {
+        powerup.effectTime = 0;
+        powerup.update();
+      }
+      this.powerups = [];
+      this.map.resetPowerUps();
       this.startTime = millis();
       this.fieldSize = 600;
     }

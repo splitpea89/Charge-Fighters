@@ -7,6 +7,8 @@ class PolkaDots extends Map {
         this.p2SpawnY = 240;
         this.name = "Polka Dots";
         this.imgPath = "assets/placeholder-icon.png";
+        this.openPowerUpLocs = [[300, 80], [300, 200]];
+        this.filledPowerUpLocs = [];
     }
 
     addElements(platformsArr, spikesArr, polarElementsArr) {
@@ -33,6 +35,17 @@ class PolkaDots extends Map {
     }
 
     getPowerUpLoc() {
+        if(this.openPowerUpLocs.length == 0) {return -1;}
+        let loc = random(this.openPowerUpLocs);
+        this.openPowerUpLocs.splice(this.openPowerUpLocs.indexOf(loc), 1);
+        append(this.filledPowerUpLocs, loc);
+        return loc;
+    }
 
+    resetPowerUps() {
+        for(let i in this.filledPowerUpLocs) {
+            append(this.openPowerUpLocs, this.filledPowerUpLocs[i]);
+        }
+        this.filledPowerUpLocs = [];
     }
 }

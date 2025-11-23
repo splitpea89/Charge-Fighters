@@ -27,14 +27,17 @@ class Player {
     this.groundFrictionFactor = 0.92;
     this.generalSlowdownFactor = 0.96;
     this.magnetismCoef = 1.5;
-    this.distancePower = 1.36;
+    this.distancePower = 1.5;
     this.polKeyWasDown = false;
     this.activeParticles = [];
+    this.hasMagnetismPowerUp = false;
   }
   
   update(gameScene) {
     // magnetism
     if(!this.isAlive) {return;}
+
+    console.log(this.pol);
 
     for(let i in gameScene.polarElements) {
         let element = gameScene.polarElements[i];
@@ -49,7 +52,14 @@ class Player {
 
         if(mag <= 100 && mag > 0) {
 
-            if(element.constructor === Player) { dx *=1.5; dy *=1.5;}
+            if(element.constructor === Player) { 
+              dx *=1.5; 
+              dy *=1.5;
+              if(element.hasMagnetismPowerUp) {
+                dx *= 2;
+                dy *= 2;
+              }
+            }
 
             this.vX -= this.pol * element.pol * dx * this.magnetismCoef  / (pow(mag, this.distancePower))
             this.vY -= this.pol * element.pol * dy * this.magnetismCoef / (pow(mag, this.distancePower))
@@ -187,6 +197,14 @@ class Player {
 
     // Player Collisions
     if(this.plrNum == 1) {handlePlayerCollisions(this, gameScene.plr2, gameScene);}
+
+    // Powerup Collisions
+    for(let i in gameScene.powerups) {
+      let powerup = gameScene.powerups[i];
+      if(powerup.plrCollected == undefined && overlapRects(this.x, this.y, this.size, this.size, powerup.x, powerup.y, 20, 20)[0]) {
+        powerup.plrCollected = this;
+      }
+    }
 
     // Spike Collisions
     for(let i in gameScene.spikes) {

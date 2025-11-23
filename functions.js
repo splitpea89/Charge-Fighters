@@ -7,7 +7,11 @@ function updateAndDrawElements(elements, activated) {
       i--;
     } else {
       if(activated) {
-        elements[i].update();
+        if(elements[i].update() == -1) {
+          elements.splice(i, 1);
+          i--;
+          continue;
+        }
       }
       elements[i].drawElement();
     }
