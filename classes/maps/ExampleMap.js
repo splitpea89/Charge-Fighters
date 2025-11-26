@@ -34,18 +34,4 @@ class ExampleMap extends Map {
         append(spikesArr, new Spikes(572, 200, 15, 50, 5, 0, 3, color(255)));
     }
 
-    getPowerUpLoc() {
-        if(this.openPowerUpLocs.length == 0) {return -1;}
-        let loc = random(this.openPowerUpLocs);
-        this.openPowerUpLocs.splice(this.openPowerUpLocs.indexOf(loc), 1);
-        append(this.filledPowerUpLocs, loc);
-        return loc;
-    }
-
-    resetPowerUps() {
-        for(let i in this.filledPowerUpLocs) {
-            append(this.openPowerUpLocs, this.filledPowerUpLocs[i]);
-        }
-        this.filledPowerUpLocs = [];
-    }
 }

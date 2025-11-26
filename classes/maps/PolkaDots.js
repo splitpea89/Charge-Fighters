@@ -12,9 +12,17 @@ class PolkaDots extends Map {
     }
 
     addElements(platformsArr, spikesArr, polarElementsArr) {
-        append(platformsArr, new Platform(590, 300, 20, 600, -1)); // walls
-        append(platformsArr, new Platform(10, 300, 20, 600, -1));
-        append(platformsArr, new Platform(300, 10, 600, 20, -1));
+        let wall1 = new Platform(590, 300, 20, 600, -1);
+        let wall2 = new Platform(10, 300, 20, 600, -1);
+        let wall3 = new Platform(300, 10, 600, 20, -1);
+
+        append(platformsArr, wall1); // walls
+        append(platformsArr, wall2);
+        append(platformsArr, wall3);
+
+        append(polarElementsArr, wall1); // walls
+        append(polarElementsArr, wall2);
+        append(polarElementsArr, wall3);
  
         let p1 = new Platform(120, 300, 80, 80, 1);
         let p2 = new Platform(200, 500, 80, 80, 1);
@@ -33,19 +41,5 @@ class PolkaDots extends Map {
         append(polarElementsArr, p5);
 
     }
-
-    getPowerUpLoc() {
-        if(this.openPowerUpLocs.length == 0) {return -1;}
-        let loc = random(this.openPowerUpLocs);
-        this.openPowerUpLocs.splice(this.openPowerUpLocs.indexOf(loc), 1);
-        append(this.filledPowerUpLocs, loc);
-        return loc;
-    }
-
-    resetPowerUps() {
-        for(let i in this.filledPowerUpLocs) {
-            append(this.openPowerUpLocs, this.filledPowerUpLocs[i]);
-        }
-        this.filledPowerUpLocs = [];
-    }
+    
 }

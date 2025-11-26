@@ -12,7 +12,6 @@ class MagnetismUp extends PowerUp {
     update() {
         if(this.plrCollected != undefined) {
             this.effectTime--;
-            console.log(this.effectTime);
             if(!this.effectActive) {
                 this.effectActive = true;
                 this.plrCollected.hasMagnetismPowerUp = true; // make magnetism stronger

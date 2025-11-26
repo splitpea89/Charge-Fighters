@@ -40,24 +40,13 @@ function overlapRects(x1, y1, w1, h1, x2, y2, w2, h2) {
     return([abs(x2 - x1) < halfW1 + halfW2 && abs(y2 - y1) < halfH1 + halfH2, overlapX, overlapY]); // [bool isOverlapping, num xOverlap, num yOverlap]
 }
 
-function findClosestPointOnLineSeg(px, py, x1, y1, x2, y2) {
-  // Line segment direction vector
-  let dx = x2 - x1;
-  let dy = y2 - y1;
+function clamp(v, a, b) { return Math.max(a, Math.min(b, v));}
 
-  // Vector from x1,y1 to the point
-  let t = ((px - x1) * dx + (py - y1) * dy) / (dx*dx + dy*dy);
+function findClosestPointOnRect(px, py, x1, y1, x2, y2) {
 
-  // Clamp t to the segment [0, 1]
-  t = Math.max(0, Math.min(1, t));
-
-  // Closest point on segment
-  let closestX = x1 + t * dx;
-  let closestY = y1 + t * dy;
-
-  return [closestX, closestY];
-
+  return([clamp(px, x1, x2), clamp(py, y1, y2)]);
 }
+
 
 function handlePlayerCollisions(plr1, plr2, gameScene) {
   let dx = plr2.x - plr1.x;

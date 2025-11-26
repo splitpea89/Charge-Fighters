@@ -37,9 +37,9 @@ class GameScene extends Scene {
   
   runLoop(dT) {
 
-    if(millis() - this.startTime > this.timeBeforeFieldShrink) { // enough time has passed for screen shrink and powerup spawn
+    if(millis() - this.startTime > this.timeBeforeFieldShrink && !this.paused) { // enough time has passed for screen shrink and powerup spawn
       this.fieldSize -= dT/300;
-      if(random(0, 1000) > 975) { // powerup spawn try
+      if(random(0, 1000) > 995) { // powerup spawn try
         let loc = this.map.getPowerUpLoc();
         if(loc != -1) {
           let powerUp = random(this.powerUpPool);
@@ -73,7 +73,7 @@ class GameScene extends Scene {
         append(this.UIElements, new RectButton(300, 400, 150, 50, 10, color(0, 110, 150), color(0, 50, 100), "Exit", 20, 255, () => {this.exit = true;}));
       }
       if (this.paused) {
-      // TODO: pause menu
+      // pause menu
       this.drawPauseMenu();
       }
     }
@@ -84,7 +84,7 @@ class GameScene extends Scene {
   }
   
   drawArena() {
-    // TODO: design
+    // TODO: better design?
     background(200, 0, 0);
     fill(160);
     strokeWeight(0);

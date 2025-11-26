@@ -6,7 +6,7 @@ class Player {
     this.vY = 0;
     this.plrNum = plrNum; // 1 or 2
     this.pol = pol; // -1 or 1
-    this.changePolCooldown = 60; // cooldown for changing polarity
+    this.changePolCooldown = 30; // cooldown for changing polarity
     this.changePolCounter = 0;
     this.isAlive = true;
     this.size = 20;
@@ -37,16 +37,15 @@ class Player {
     // magnetism
     if(!this.isAlive) {return;}
 
-    console.log(this.pol);
-
     for(let i in gameScene.polarElements) {
         let element = gameScene.polarElements[i];
         let dx = element.x - this.x;
         let dy = element.y - this.y;
-        if(element.constructor === Platform) { // TODO: this will break with vertical polar platforms
-          let closestP = findClosestPointOnLineSeg(this.x, this.y, element.x-(element.w/2), element.y, element.x+(element.w/2), element.y);
+        if(element.constructor === Platform) {
+          let closestP = findClosestPointOnRect(this.x, this.y, element.x-(element.w/2), element.y-(element.h/2), element.x+(element.w/2), element.y+(element.h/2));
           dx = closestP[0] - this.x;
           dy = closestP[1] - this.y;
+          if(this.plrNum == 2 && element.x == 590) {console.log(closestP);}
         }
         let mag = dist(0, 0, dx, dy);
 
@@ -87,7 +86,7 @@ class Player {
         this.vX += this.torque;
       }
       // Jumping
-      if(keyIsDown(87)) { // 'W' TODO: unset grounded after sliding off platform? coyote time?
+      if(keyIsDown(87)) { // 'W'
         this.handleJump(87);
       } else {this.jumping = false;}
       // Polarity
@@ -207,9 +206,11 @@ class Player {
     }
 
     // Spike Collisions
-    for(let i in gameScene.spikes) {
-      let spikes = gameScene.spikes[i];
-      if(overlapRects(this.x, this.y, this.size, this.size, spikes.x, spikes.y, spikes.w, spikes.h)[0]) {this.isAlive = false;}
+    if(gameScene.plr1.isAlive && gameScene.plr2.isAlive) {
+      for(let i in gameScene.spikes) {
+        let spikes = gameScene.spikes[i];
+        if(overlapRects(this.x, this.y, this.size, this.size, spikes.x, spikes.y, spikes.w, spikes.h)[0]) {this.isAlive = false;}
+      }
     }
   }
   

@@ -2,7 +2,7 @@ class MapSelectScene extends Scene {
   constructor(map) {
     super();
     this.UIElements = [];
-    this.maps = [new ExampleMap(), new PolkaDots()]; //array of maps in rotation
+    this.maps = [new ExampleMap(), new PolkaDots(), new Pillars()]; //array of maps in rotation
     this.mapImgs = [];
     this.currentIx = 0;
     this.imgIcon = new ImgIcon(300, 300, 110, 110, 0, icon);
