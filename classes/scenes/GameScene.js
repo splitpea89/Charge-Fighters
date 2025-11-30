@@ -1,5 +1,5 @@
 class GameScene extends Scene {
-  constructor(map) {
+  constructor(map, roundsToWin, areMapsRandomized, mapPool) {
     super();
     this.powerUpPool = [MagnetismUp]; 
     this.platforms = [];
@@ -18,6 +18,9 @@ class GameScene extends Scene {
     this.score2 = 0;
     this.exit = false;
     this.map = map;
+    this.roundsToWin = roundsToWin;
+    this.areMapsRandomized = areMapsRandomized;
+    this.mapPool = mapPool;
   }
   
   init() {
@@ -134,6 +137,13 @@ class GameScene extends Scene {
       textSize(35);
       text("restarting in: " + str(Math.ceil(t/1000)), 300, 500)
     } else {
+      if(this.areMapsRandomized) {
+        this.map = new (random(this.mapPool))();
+        this.platforms = [];
+        this.spikes = [];
+        this.polarElements = [];
+        this.map.addElements(this.platforms, this.spikes, this.polarElements);
+      }
       this.plr1.isAlive = true;
       this.plr2.isAlive = true;
       this.plr1.x = this.map.p1SpawnX;

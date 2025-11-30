@@ -6,7 +6,7 @@ class PolkaDots extends Map {
         this.p2SpawnX = 480;
         this.p2SpawnY = 240;
         this.name = "Polka Dots";
-        this.imgPath = "assets/placeholder-icon.png";
+        this.imgPath = "assets/PolkaDots.png";
         this.openPowerUpLocs = [[300, 80], [300, 200]];
         this.filledPowerUpLocs = [];
     }

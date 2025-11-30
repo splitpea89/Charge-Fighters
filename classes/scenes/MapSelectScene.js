@@ -2,20 +2,21 @@ class MapSelectScene extends Scene {
   constructor(map) {
     super();
     this.UIElements = [];
-    this.maps = [new ExampleMap(), new PolkaDots(), new Pillars()]; //array of maps in rotation
+    this.maps = [ExampleMap, PolkaDots, Pillars]; //array of maps in rotation
     this.mapImgs = [];
     this.currentIx = 0;
-    this.imgIcon = new ImgIcon(300, 300, 110, 110, 0, icon);
-    this.mapLabel = new TextBox(300, 210, 200, 20, 0, this.maps[0].name, 15, color(0, 0, 0, 0), color(20));
+    this.imgIcon = new ImgIcon(300, 200, 110, 110, 0, icon);
+    this.mapLabel = new TextBox(300, 110, 200, 20, 0, this.maps[0].name, 15, color(0, 0, 0, 0), color(20));
     this.returnScene = false;
     this.backToMain = false;
+    this.roundsToWin = 3;
   }
   
   init() {
     console.log("init select scene");
     
     for (let i in this.maps) {
-        let map = this.maps[i]
+        let map = new this.maps[i]();
         loadImage(
             map.imgPath,
 
@@ -33,26 +34,56 @@ class MapSelectScene extends Scene {
 
     append(this.UIElements, this.imgIcon);
     append(this.UIElements, this.mapLabel);
-    append(this.UIElements, new ImgButton(200, 300, 70, 50, loadImage("assets/LeftArrow.png"), undefined, () => this.scrollLeft()));
-    append(this.UIElements, new ImgButton(400, 300, 70, 50, loadImage("assets/RightArrow.png"), undefined, () => this.scrollRight()));
-    append(this.UIElements, new RectButton(300, 420, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Start", 15, color(255), () => {this.returnScene = true;}));
-    append(this.UIElements, new RectButton(300, 520, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Exit", 15, color(255), () => {this.backToMain = true;}));
-
+    append(this.UIElements, new ImgButton(200, 200, 70, 50, loadImage("assets/LeftArrow.png"), undefined, () => this.mapScrollLeft()));
+    append(this.UIElements, new ImgButton(400, 200, 70, 50, loadImage("assets/RightArrow.png"), undefined, () => this.mapScrollRight()));
+    append(this.UIElements, new RectButton(420, 520, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Start", 15, color(255), () => {this.returnScene = true;}));
+    append(this.UIElements, new RectButton(180, 520, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Exit", 15, color(255), () => {this.backToMain = true;}));
+    append(this.UIElements, new TextBox(250, 330, 300, 40, 0, "Map Randomization: ", 20, color(0, 0, 0, 0), color(0), 0));
+    this.isRandomizedButton = new ImgButton(400, 330, 30, 30, icon, icon, () => this.randomizedButtonPressed(), false);
+    append(this.UIElements, this.isRandomizedButton);
+    append(this.UIElements, new TextBox(250, 400, 300, 40, 0, "Rounds to Win: ", 20, color(0, 0, 0, 0), color(0), 0));
+    this.roundsToWinTextBox = new TextBox(400, 400, 60, 30, 0, this.roundsToWin, 25, color(0, 0, 0, 0), color(0), 0);
+    append(this.UIElements, this.roundsToWinTextBox);
+    append(this.UIElements, new ImgButton(350, 400, 50, 35, loadImage("assets/LeftArrow.png"), undefined, () => this.roundCountScrollLeft()));
+    append(this.UIElements, new ImgButton(450, 400, 50, 35, loadImage("assets/RightArrow.png"), undefined, () => this.roundCountScrollRight()));
   }
-  
+
+  randomizedButtonPressed() {
+    if(this.isRandomizedButton.state == false) {
+      this.mapLabel.txt = "???";
+    } else {
+      this.mapLabel.txt = this.maps[this.currentIx].name;
+    }
+  }
+
   runLoop(dT) {
     this.drawBackground();
 
-    if(this.mapImgs[this.currentIx] !== undefined) {
-        this.imgIcon.img = this.mapImgs[this.currentIx];
+    if(this.isRandomizedButton.state == false) {
+
+      if(this.mapImgs[this.currentIx] !== undefined) {
+          this.imgIcon.img = this.mapImgs[this.currentIx];
+      } else {
+          this.imgIcon.img = icon;
+      }
+
     } else {
-        this.imgIcon.img = icon;
+      let counter = (frameCount / 20) % this.maps.length;
+      if(this.mapImgs[floor(counter)] !== undefined) {
+          this.imgIcon.img = this.mapImgs[floor(counter)];
+      } else {
+          this.imgIcon.img = icon;
+      }
     }
 
     updateAndDrawElements(this.UIElements, true);
 
     if(this.returnScene) {
-        return(new GameScene(this.maps[this.currentIx]));
+        if(this.isRandomizedButton.state == false) {
+          return(new GameScene(new this.maps[this.currentIx](), this.roundsToWin, false, this.maps));
+        } else {
+          return(new GameScene(new (random(this.maps))(), this.roundsToWin, true, this.maps));
+        }
     }
 
     if(this.backToMain) {
@@ -60,22 +91,40 @@ class MapSelectScene extends Scene {
     }
   }
   
-  scrollLeft() {
-    if(this.currentIx == 0) {
-        this.currentIx = this.maps.length - 1;
-    } else {
-        this.currentIx--;
+  roundCountScrollLeft() {
+    if(this.roundsToWin > 1) {
+      this.roundsToWin--;
+      this.roundsToWinTextBox.txt = this.roundsToWin;
     }
-    this.mapLabel.txt = this.maps[this.currentIx].name;
   }
 
-  scrollRight() {
-    if(this.currentIx == this.maps.length - 1) {
-        this.currentIx = 0;
-    } else {
-        this.currentIx++;
+  roundCountScrollRight() {
+if(this.roundsToWin < 67) {
+      this.roundsToWin++;
+      this.roundsToWinTextBox.txt = this.roundsToWin;
     }
-    this.mapLabel.txt = this.maps[this.currentIx].name;
+  }
+
+  mapScrollLeft() {
+    if(this.isRandomizedButton.state == false) {
+      if(this.currentIx == 0) {
+          this.currentIx = this.maps.length - 1;
+      } else {
+          this.currentIx--;
+      }
+      this.mapLabel.txt = this.maps[this.currentIx].name;
+    }
+  }
+
+  mapScrollRight() {
+    if(this.isRandomizedButton.state == false) {
+      if(this.currentIx == this.maps.length - 1) {
+          this.currentIx = 0;
+      } else {
+          this.currentIx++;
+      }
+      this.mapLabel.txt = this.maps[this.currentIx].name;
+    }
   }
 
   drawBackground() {
@@ -83,13 +132,13 @@ class MapSelectScene extends Scene {
     fill(150);
     rect(300, 300, 570, 570);
     fill(30);
-    rect(300, 300, 120, 120);
+    rect(300, 200, 120, 120);
 
     textSize(40 + 5*sin(frameCount/50));
     fill(100, 140, 220);
     strokeWeight(3);
     stroke(0);
-    text("Map Select", 300, 160);
+    text("Game Options", 300, 60);
 
 
     strokeWeight(0);

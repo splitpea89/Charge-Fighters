@@ -1,5 +1,5 @@
 class ImgButton extends UIElement {
-  constructor(x, y, w, h, img1, img2, func) {
+  constructor(x, y, w, h, img1, img2, func, initState) {
     super();
     this.x = x;
     this.y = y;
@@ -8,7 +8,7 @@ class ImgButton extends UIElement {
     this.img1 = img1;
     this.img2 = img2;
     this.func = func;
-    this.state = true; // true = on, false = off
+    initState == undefined ? this.state = true : this.state = initState; // true = on, false = off
     this.wasPressed = false;
   }
   
@@ -19,13 +19,13 @@ class ImgButton extends UIElement {
         this.wasPressed = true;
       } else {
         if(this.wasPressed) {
-          this.func();
+          if(this.func != undefined) {
+            this.func();
+          }
           this.state = !this.state;
         }
         this.wasPressed = false;
       }
-    } else {
-      this.state = 0;
     }
   }
   
