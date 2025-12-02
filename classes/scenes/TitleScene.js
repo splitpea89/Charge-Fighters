@@ -13,6 +13,8 @@ class TitleScene extends Scene {
     append(this.sceneElements, new LineMagnet(550, 250, 2.8, 3.2, 1, 0.05, 1.8));
     append(this.sceneElements, new LineMagnet(400, 540, 1.8, 3.2, 1, 0.08, 0.9)); // add line magnets
     
+    this.volumeIcon = loadImage("assets/VolumeIcon.png");
+
     this.volumeSlider = createSlider(0, 1, 0.75, 0);
     this.volumeSlider.position(-225, 300);
     this.volumeSlider.size(150, 20);
@@ -40,11 +42,11 @@ class TitleScene extends Scene {
     if(this.activeMenu != 1) {
       this.menuElements = [];
       this.activeMenu = 1;
-      this.volumeSlider.position(200, 300);
-      this.SFXSlider.position(200, 375); // TODO: fix screen position
+      this.volumeSlider.position(600, 400);
+      this.SFXSlider.position(600, 475); // TODO: fix screen position
       
-      append(this.menuElements, new ImgIcon(370, 302, 20, 20, 0, icon));
-      append(this.menuElements, new ImgIcon(370, 377, 20, 20, 0, icon)); // TODO: sound functionality
+      append(this.menuElements, new ImgIcon(360, 309, 20, 20, 0, this.volumeIcon));
+      append(this.menuElements, new ImgIcon(360, 374, 20, 20, 0, this.volumeIcon)); // TODO: sound functionality
       
       append(this.menuElements, new RectButton(300, 487, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "BACK", 15, color(10), this.startMenu.bind(this)));
       console.log("options menu");

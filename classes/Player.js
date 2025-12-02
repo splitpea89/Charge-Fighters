@@ -209,7 +209,10 @@ class Player {
     if(gameScene.plr1.isAlive && gameScene.plr2.isAlive) {
       for(let i in gameScene.spikes) {
         let spikes = gameScene.spikes[i];
-        if(overlapRects(this.x, this.y, this.size, this.size, spikes.x, spikes.y, spikes.w, spikes.h)[0]) {this.isAlive = false;}
+        if(overlapRects(this.x, this.y, this.size, this.size, spikes.x, spikes.y, spikes.w, spikes.h)[0]) {
+          this.isAlive = false;
+          this.plrNum == 1 ? gameScene.score2++ : gameScene.score1++;
+        }
       }
     }
   }

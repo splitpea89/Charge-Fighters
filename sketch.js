@@ -1,7 +1,7 @@
 let activeScene = new TitleScene();
 let startTime, lastTime;
 
-const SCALE_FACTOR = 1.2;
+const SCALE_FACTOR = 1.15;
 let adjMouseX;
 let adjMouseY;
 
@@ -12,7 +12,8 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(600*SCALE_FACTOR, 600*SCALE_FACTOR);
+  let canvas = createCanvas(600*SCALE_FACTOR, 600*SCALE_FACTOR);
+  canvas.parent("game-div");
   rectMode(CENTER);
   textAlign(CENTER, CENTER);
   

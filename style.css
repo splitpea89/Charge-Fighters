@@ -1,8 +1,26 @@
 html, body {
   margin: 0;
   padding: 0;
+  background-color: #888888;
+  height: 95%;
 }
 
 canvas {
   display: block;
+}
+
+.game-div {
+  align-content: center;
+  background-color: #222222;
+  border-radius: 20px;
+  padding: 25px;
+  height: 690px;
+  width: 690px;
+  margin: 0 auto;
+}
+
+.game-p {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }

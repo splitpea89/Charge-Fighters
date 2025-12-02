@@ -31,7 +31,7 @@ class ImgButton extends UIElement {
   
   drawElement() {
     
-    if(!this.state && !this.img2 == undefined) {
+    if(!this.state && !(this.img2 == undefined)) {
       image(this.img2, this.x-(this.w/2), this.y-(this.h/2), this.w, this.h);
     } else {
       image(this.img1, this.x-(this.w/2), this.y-(this.h/2), this.w, this.h);

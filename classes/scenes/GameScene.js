@@ -142,6 +142,8 @@ class GameScene extends Scene {
         this.platforms = [];
         this.spikes = [];
         this.polarElements = [];
+        append(this.polarElements, this.plr1);
+        append(this.polarElements, this.plr2);
         this.map.addElements(this.platforms, this.spikes, this.polarElements);
       }
       this.plr1.isAlive = true;
