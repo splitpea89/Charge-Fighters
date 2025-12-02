@@ -21,6 +21,7 @@ class GameScene extends Scene {
     this.roundsToWin = roundsToWin;
     this.areMapsRandomized = areMapsRandomized;
     this.mapPool = mapPool;
+    this.gameOver = false;
   }
   
   init() {
@@ -61,8 +62,12 @@ class GameScene extends Scene {
       if(this.justEnded == true) {
         this.justEnded = false;
         this.startTime = millis();
+        if(max(this.score1, this.score2) >= this.roundsToWin && this.score1 != this.score2) {
+          this.gameOver = true;
+        }
       }
       this.doWinSequence();
+      if(this.gameOver && this.justEnded) {return(new TitleScene());}
     }
     Particle.updateAndDrawParticles(this.plr1.activeParticles);
     Particle.updateAndDrawParticles(this.plr2.activeParticles);
@@ -134,9 +139,14 @@ class GameScene extends Scene {
       fill(250);
       text(str(txt), 300, 200);
       text(str(this.score1) + "     -     " + str(this.score2), 300, 350);
-      textSize(35);
-      text("restarting in: " + str(Math.ceil(t/1000)), 300, 500)
+      if(!this.gameOver) {
+        textSize(35);
+        text("restarting in: " + str(Math.ceil(t/1000)), 300, 500);
+      } else {
+        // TODO: something different displayed once one player has won enough rounds to win? Maybe button for return to menu
+      }
     } else {
+
       if(this.areMapsRandomized) {
         this.map = new (random(this.mapPool))();
         this.platforms = [];
@@ -156,6 +166,8 @@ class GameScene extends Scene {
       this.plr2.y = this.map.p2SpawnY;
       this.plr2.vX = 0;
       this.plr2.vY = 0;
+      this.plr1.pol = 1;
+      this.plr2.pol = 1;
       this.justEnded = true;
       for(let powerup of this.powerups) {
         powerup.effectTime = 0;

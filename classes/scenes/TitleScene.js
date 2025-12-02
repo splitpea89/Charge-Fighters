@@ -14,13 +14,15 @@ class TitleScene extends Scene {
     append(this.sceneElements, new LineMagnet(400, 540, 1.8, 3.2, 1, 0.08, 0.9)); // add line magnets
     
     this.volumeIcon = loadImage("assets/VolumeIcon.png");
+    this.mutedVolumeIcon = loadImage("assets/MutedVolume.png");
+    this.volumeSliderImg = new ImgIcon(400, 316, 40, 40, 0, icon);
 
     this.volumeSlider = createSlider(0, 1, 0.75, 0);
     this.volumeSlider.position(-225, 300);
-    this.volumeSlider.size(150, 20);
-    this.SFXSlider = createSlider(0, 1, 0.75, 0);
-    this.SFXSlider.position(-225, 375);
-    this.SFXSlider.size(150, 20);
+    this.volumeSlider.size(200, 40);
+    // this.SFXSlider = createSlider(0, 1, 0.75, 0);
+    // this.SFXSlider.position(-225, 375);
+    // this.SFXSlider.size(200, 40);
     
     this.startMenu();
   }
@@ -30,7 +32,7 @@ class TitleScene extends Scene {
       this.menuElements = [];
       this.activeMenu = 0;
       this.volumeSlider.position(-225, 300);
-      this.SFXSlider.position(-225, 375);
+      // this.SFXSlider.position(-225, 375);
       append(this.menuElements, new RectButton(300, 237, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "START", 15, color(10), this.startGame.bind(this)));
       append(this.menuElements, new RectButton(300, 362, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "OPTIONS", 15, color(10), this.optionsMenu.bind(this)));
       append(this.menuElements, new RectButton(300, 487, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "ABOUT", 15, color(10), this.aboutMenu.bind(this)));
@@ -43,14 +45,15 @@ class TitleScene extends Scene {
       this.menuElements = [];
       this.activeMenu = 1;
       this.volumeSlider.position(600, 400);
-      this.SFXSlider.position(600, 475); // TODO: fix screen position
-      
-      append(this.menuElements, new ImgIcon(360, 309, 20, 20, 0, this.volumeIcon));
-      append(this.menuElements, new ImgIcon(360, 374, 20, 20, 0, this.volumeIcon)); // TODO: sound functionality
+      // this.SFXSlider.position(600, 475); 
+
+      append(this.menuElements, this.volumeSliderImg); // TODO: sound functionality
+      // append(this.menuElements, new ImgIcon(360, 374, 40, 40, 0, this.volumeIcon)); // SFX one
       
       append(this.menuElements, new RectButton(300, 487, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "BACK", 15, color(10), this.startMenu.bind(this)));
       console.log("options menu");
     }
+      
   }
   
   aboutMenu() {
@@ -87,6 +90,10 @@ class TitleScene extends Scene {
     
     this.drawTitle(dT);
     
+    if(this.activeMenu == 1) {
+      this.volumeSlider.value() == 0 ? this.volumeSliderImg.img = this.mutedVolumeIcon : this.volumeSliderImg.img = this.volumeIcon;
+    }
+
     if(this.nextScene != 0) {
       return(this.nextScene);
     }
