@@ -2,11 +2,11 @@ class MapSelectScene extends Scene {
   constructor(map) {
     super();
     this.UIElements = [];
-    this.maps = [ExampleMap, PolkaDots, Pillars]; //array of maps in rotation
+    this.maps = [Example_Map, Polka_Dots, Pillars]; //array of maps in rotation
     this.mapImgs = [];
     this.currentIx = 0;
     this.imgIcon = new ImgIcon(300, 200, 110, 110, 0, icon);
-    this.mapLabel = new TextBox(300, 110, 200, 20, 0, this.maps[0].name, 15, color(0, 0, 0, 0), color(20));
+    this.mapLabel = new TextBox(300, 110, 200, 20, 0, this.maps[0].name.replaceAll("_", " "), 15, color(0, 0, 0, 0), color(20));
     this.returnScene = false;
     this.backToMain = false;
     this.roundsToWin = 3;
@@ -28,7 +28,7 @@ class MapSelectScene extends Scene {
 
             // on failure
             err => {
-                console.log("Failed to load image:", map.name, err);
+                console.log("Failed to load image:", map.name.replaceAll("_", " "), err);
                 this.mapImgs.push(icon);
             }
         );
@@ -55,7 +55,7 @@ class MapSelectScene extends Scene {
     if(this.isRandomizedButton.state == false) {
       this.mapLabel.txt = "???";
     } else {
-      this.mapLabel.txt = this.maps[this.currentIx].name;
+      this.mapLabel.txt = this.maps[this.currentIx].name.replaceAll("_", " ");
     }
   }
 
@@ -115,7 +115,7 @@ if(this.roundsToWin < 67) {
       } else {
           this.currentIx--;
       }
-      this.mapLabel.txt = this.maps[this.currentIx].name;
+      this.mapLabel.txt = this.maps[this.currentIx].name.replaceAll("_", " ");
     }
   }
 
@@ -126,7 +126,7 @@ if(this.roundsToWin < 67) {
       } else {
           this.currentIx++;
       }
-      this.mapLabel.txt = this.maps[this.currentIx].name;
+      this.mapLabel.txt = this.maps[this.currentIx].name.replaceAll("_", " ");
     }
   }
 

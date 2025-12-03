@@ -17,7 +17,7 @@ class TitleScene extends Scene {
     this.mutedVolumeIcon = loadImage("assets/MutedVolume.png");
     this.volumeSliderImg = new ImgIcon(400, 316, 40, 40, 0, icon);
 
-    this.volumeSlider = createSlider(0, 1, 0.75, 0);
+    this.volumeSlider = createSlider(0, 1, 0.75, 0); //TODO: PROBLEM: this position is relative to page and not to the p5 canvas
     this.volumeSlider.position(-225, 300);
     this.volumeSlider.size(200, 40);
     // this.SFXSlider = createSlider(0, 1, 0.75, 0);
@@ -79,7 +79,7 @@ class TitleScene extends Scene {
   startGame() {
     console.log("start game") 
     this.nextScene = (new MapSelectScene());
-    // this.nextScene = new GameScene(new ExampleMap()); // override select scene
+    // this.nextScene = new GameScene(new Example_Map()); // override select scene
   }
   
   runLoop(dT) {

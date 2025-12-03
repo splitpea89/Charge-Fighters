@@ -1,12 +1,12 @@
-class PolkaDots extends Map {
+class Polka_Dots extends Map {
     constructor() {
         super();
         this.p1SpawnX = 120;
         this.p1SpawnY = 240;
         this.p2SpawnX = 480;
         this.p2SpawnY = 240;
-        this.name = "Polka Dots";
-        this.imgPath = "assets/PolkaDots.png";
+        this.mapName = "Polka Dots";
+        this.imgPath = "assets/Polka_Dots.png";
         this.openPowerUpLocs = [[300, 80], [300, 200]];
         this.filledPowerUpLocs = [];
     }
