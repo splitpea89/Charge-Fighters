@@ -1,10 +1,11 @@
 class TitleScene extends Scene {
-  constructor() {
+  constructor(audioController) {
     super();
     this.sceneElements = [];
     this.menuElements = [];
     this.activeMenu = -1; // "start", "options", "about"
     this.nextScene = 0;
+    audioController == undefined ? this.audioController = new AudioController() : this.audioController = audioController;
   }
   
   init() {
@@ -16,6 +17,8 @@ class TitleScene extends Scene {
     this.volumeIcon = loadImage("assets/VolumeIcon.png");
     this.mutedVolumeIcon = loadImage("assets/MutedVolume.png");
     this.volumeSliderImg = new ImgIcon(400, 316, 40, 40, 0, icon);
+
+    this.audioController.init();
 
     this.volumeSlider = createSlider(0, 1, 0.75, 0); //TODO: PROBLEM: this position is relative to page and not to the p5 canvas
     this.volumeSlider.position(-225, 300);
@@ -78,20 +81,23 @@ class TitleScene extends Scene {
   
   startGame() {
     console.log("start game") 
-    this.nextScene = (new MapSelectScene());
+    this.nextScene = (new MapSelectScene(this.audioController));
     // this.nextScene = new GameScene(new Example_Map()); // override select scene
   }
   
   runLoop(dT) {
     this.drawBackground();
   
-    updateAndDrawElements(this.sceneElements, true);
-    updateAndDrawElements(this.menuElements, true);
+    updateAndDrawElements(this.sceneElements, true, this);
+    updateAndDrawElements(this.menuElements, true, this);
+
+    this.audioController.update();
     
     this.drawTitle(dT);
     
     if(this.activeMenu == 1) {
       this.volumeSlider.value() == 0 ? this.volumeSliderImg.img = this.mutedVolumeIcon : this.volumeSliderImg.img = this.volumeIcon;
+      this.audioController.changeVolume(this.volumeSlider.value());
     }
 
     if(this.nextScene != 0) {

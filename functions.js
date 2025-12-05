@@ -1,13 +1,13 @@
 // FUNCTIONS \\
 
-function updateAndDrawElements(elements, activated) {
+function updateAndDrawElements(elements, activated, scene) {
   for(let i = 0; i < elements.length; i++) {
     if(elements[i] == undefined) { // should check if element still exists
       elements.splice(i, 1);
       i--;
     } else {
       if(activated) {
-        if(elements[i].update() == -1) {
+        if(elements[i].update(scene) == -1) {
           elements.splice(i, 1);
           i--;
           continue;
@@ -40,11 +40,11 @@ function overlapRects(x1, y1, w1, h1, x2, y2, w2, h2) {
     return([abs(x2 - x1) < halfW1 + halfW2 && abs(y2 - y1) < halfH1 + halfH2, overlapX, overlapY]); // [bool isOverlapping, num xOverlap, num yOverlap]
 }
 
-function clamp(v, a, b) { return Math.max(a, Math.min(b, v));}
+// function clamp(v, a, b) { return Math.max(a, Math.min(b, v));}
 
 function findClosestPointOnRect(px, py, x1, y1, x2, y2) {
 
-  return([clamp(px, x1, x2), clamp(py, y1, y2)]);
+  return([constrain(px, x1, x2), constrain(py, y1, y2)]);
 }
 
 

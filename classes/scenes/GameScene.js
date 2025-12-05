@@ -1,6 +1,7 @@
 class GameScene extends Scene {
-  constructor(map, roundsToWin, areMapsRandomized, mapPool) {
+  constructor(map, roundsToWin, areMapsRandomized, mapPool, audioController) {
     super();
+    this.audioController = audioController;
     this.powerUpPool = [MagnetismUp]; 
     this.platforms = [];
     this.spikes = [];
@@ -54,9 +55,9 @@ class GameScene extends Scene {
 
     this.drawArena();
     
-    updateAndDrawElements(this.platforms, this.activated && !this.paused);
-    updateAndDrawElements(this.spikes, this.activated && !this.paused);
-    updateAndDrawElements(this.powerups, this.activated && !this.paused);
+    updateAndDrawElements(this.platforms, this.activated && !this.paused, this);
+    updateAndDrawElements(this.spikes, this.activated && !this.paused, this);
+    updateAndDrawElements(this.powerups, this.activated && !this.paused, this);
     updateAndDrawPlayers(this.plr1, this.plr2, this.activated, this);
     if(!this.plr1.isAlive || !this.plr2.isAlive) {
       if(this.justEnded == true) {
@@ -67,7 +68,7 @@ class GameScene extends Scene {
         }
       }
       this.doWinSequence();
-      if(this.gameOver && this.justEnded) {return(new TitleScene());}
+      if(this.gameOver && this.justEnded) {return(new TitleScene(this.audioController));}
     }
     Particle.updateAndDrawParticles(this.plr1.activeParticles);
     Particle.updateAndDrawParticles(this.plr2.activeParticles);
@@ -86,9 +87,9 @@ class GameScene extends Scene {
       }
     }
 
-    updateAndDrawElements(this.UIElements, true);
+    updateAndDrawElements(this.UIElements, true, this);
 
-    if(this.exit) {return new TitleScene;}
+    if(this.exit) {return new TitleScene(this.audioController);}
   }
   
   drawArena() {
@@ -148,7 +149,8 @@ class GameScene extends Scene {
     } else {
 
       if(this.areMapsRandomized) {
-        this.map = new (random(this.mapPool))();
+        const filteredMaps = this.mapPool.filter(item => item != this.map.constructor);
+        this.map = new (random(filteredMaps))();
         this.platforms = [];
         this.spikes = [];
         this.polarElements = [];

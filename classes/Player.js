@@ -45,7 +45,6 @@ class Player {
           let closestP = findClosestPointOnRect(this.x, this.y, element.x-(element.w/2), element.y-(element.h/2), element.x+(element.w/2), element.y+(element.h/2));
           dx = closestP[0] - this.x;
           dy = closestP[1] - this.y;
-          if(this.plrNum == 2 && element.x == 590) {console.log(closestP);}
         }
         let mag = dist(0, 0, dx, dy);
 

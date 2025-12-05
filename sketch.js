@@ -7,6 +7,8 @@ let adjMouseY;
 
 let icon;
 
+let transition;
+
 function preload() {
   icon = loadImage("assets/placeholder-icon.png");
 }
@@ -20,6 +22,8 @@ function setup() {
   startTime = millis();
   lastTime = millis();
   activeScene.init();
+
+  transition = new TransitionManager();
 }
 
 function draw() {
@@ -27,11 +31,21 @@ function draw() {
   adjMouseX = mouseX/SCALE_FACTOR;
   adjMouseY = mouseY/SCALE_FACTOR;
   scale(SCALE_FACTOR);
-  let scene = activeScene.runLoop(millis() - lastTime); // we're giving the amount of time in ms passed since last loop 
-  lastTime = millis();
+  let scene;
+  if(transition.active) {
+    transition.update();
+    transition.draw();
+  } else {
+    scene = activeScene.runLoop(millis() - lastTime); // we're giving the amount of time in ms passed since last loop 
+    lastTime = millis();
+  }
   if(scene != undefined) {
     scene.init();
-    activeScene = scene;
+    transition.start(() => {activeScene = scene;});
   }
   pop();
+}
+
+function mousePressed() {
+    userStartAudio();
 }

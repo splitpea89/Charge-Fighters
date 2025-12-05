@@ -1,0 +1,19 @@
+TODO
+
+VERY IMPORTANT
+- Make a credits screen! Cite assets and whatnot
+- Get audio assets and implement sound!
+    - menu button click sound
+    - background music
+    - death sound
+    - map change click (just another menu button click variation basically)
+    - polarity change sound
+    - any other sounds that might fit
+- Design and implement new maps!
+- Design and implement new powerups!
+- Work on game feel - add lots of visual effects / UI transitions!
+
+IMPORTANT
+- Probably have some sort of background behind each map that's not just a solid color
+- Something cooler happens when one player wins the game
+- 

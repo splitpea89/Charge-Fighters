@@ -15,11 +15,14 @@ class RectButton extends UIElement {
     this.state = 0; // 0 = inactive, 1 = hovering, 2 = clicked
   }
   
-  update() {
+  update(scene) {
     if(adjMouseX >= this.x - (this.w/2) && adjMouseX <= this.x + (this.w/2) && 
       adjMouseY >= this.y - (this.h/2) && adjMouseY <= this.y + (this.h/2)) {
       if(mouseIsPressed) {
-        this.state = 2;
+        if(this.state != 2) {
+          this.state = 2;
+          scene.audioController.playClickSound();
+        }
       } else {
         if(this.state == 2) {
           this.func();

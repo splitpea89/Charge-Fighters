@@ -1,6 +1,7 @@
 class MapSelectScene extends Scene {
-  constructor(map) {
+  constructor(audioController) {
     super();
+    this.audioController = audioController;
     this.UIElements = [];
     this.maps = [Example_Map, Polka_Dots, Pillars]; //array of maps in rotation
     this.mapImgs = [];
@@ -79,18 +80,18 @@ class MapSelectScene extends Scene {
       }
     }
 
-    updateAndDrawElements(this.UIElements, true);
+    updateAndDrawElements(this.UIElements, true, this);
 
     if(this.returnScene) {
         if(this.isRandomizedButton.state == false) {
-          return(new GameScene(new this.maps[this.currentIx](), this.roundsToWin, false, this.maps));
+          return(new GameScene(new this.maps[this.currentIx](), this.roundsToWin, false, this.maps, this.audioController));
         } else {
-          return(new GameScene(new (random(this.maps))(), this.roundsToWin, true, this.maps));
+          return(new GameScene(new (random(this.maps))(), this.roundsToWin, true, this.maps, this.audioController));
         }
     }
 
     if(this.backToMain) {
-        return(new TitleScene());
+        return(new TitleScene(this.audioController));
     }
   }
   
