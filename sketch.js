@@ -9,12 +9,14 @@ let icon;
 
 let transition;
 
+let canvas;
+
 function preload() {
   icon = loadImage("assets/placeholder-icon.png");
 }
 
 function setup() {
-  let canvas = createCanvas(600*SCALE_FACTOR, 600*SCALE_FACTOR);
+  canvas = createCanvas(600*SCALE_FACTOR, 600*SCALE_FACTOR);
   canvas.parent("game-div");
   rectMode(CENTER);
   textAlign(CENTER, CENTER);

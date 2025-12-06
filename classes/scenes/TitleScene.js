@@ -16,12 +16,13 @@ class TitleScene extends Scene {
     
     this.volumeIcon = loadImage("assets/VolumeIcon.png");
     this.mutedVolumeIcon = loadImage("assets/MutedVolume.png");
-    this.volumeSliderImg = new ImgIcon(400, 316, 40, 40, 0, icon);
+    this.volumeSliderImg = new ImgIcon(420, 296, 40, 40, 0, icon);
 
     this.audioController.init();
 
-    this.volumeSlider = createSlider(0, 1, 0.75, 0); //TODO: PROBLEM: this position is relative to page and not to the p5 canvas
-    this.volumeSlider.position(-225, 300);
+    this.volumeSlider = createSlider(0, 1, 0.75, 0); 
+    this.volumeSlider.parent("game-div"); 
+    this.volumeSlider.position(-500, -500);
     this.volumeSlider.size(200, 40);
     // this.SFXSlider = createSlider(0, 1, 0.75, 0);
     // this.SFXSlider.position(-225, 375);
@@ -34,7 +35,7 @@ class TitleScene extends Scene {
     if(this.activeMenu != 0) {
       this.menuElements = [];
       this.activeMenu = 0;
-      this.volumeSlider.position(-225, 300);
+      this.volumeSlider.position(-500, -500);
       // this.SFXSlider.position(-225, 375);
       append(this.menuElements, new RectButton(300, 237, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "START", 15, color(10), this.startGame.bind(this)));
       append(this.menuElements, new RectButton(300, 362, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "OPTIONS", 15, color(10), this.optionsMenu.bind(this)));
@@ -47,12 +48,13 @@ class TitleScene extends Scene {
     if(this.activeMenu != 1) {
       this.menuElements = [];
       this.activeMenu = 1;
-      this.volumeSlider.position(600, 400);
+      this.volumeSlider.position(canvas.position().x + 240, canvas.position().y + 319);
       // this.SFXSlider.position(600, 475); 
 
       append(this.menuElements, this.volumeSliderImg); // TODO: sound functionality
       // append(this.menuElements, new ImgIcon(360, 374, 40, 40, 0, this.volumeIcon)); // SFX one
       
+      append(this.menuElements, new RectButton(300, 385, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "CREDITS", 15, color(10), this.creditsMenu.bind(this)));
       append(this.menuElements, new RectButton(300, 487, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "BACK", 15, color(10), this.startMenu.bind(this)));
       console.log("options menu");
     }
@@ -77,6 +79,10 @@ class TitleScene extends Scene {
       append(this.menuElements, new RectButton(300, 537, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "BACK", 15, color(10), this.startMenu.bind(this)));
     }
     console.log("about menu");
+  }
+
+  creditsMenu() {
+    // TODO: Implement
   }
   
   startGame() {

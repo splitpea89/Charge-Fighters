@@ -31,6 +31,8 @@ class Player {
     this.polKeyWasDown = false;
     this.activeParticles = [];
     this.hasMagnetismPowerUp = false;
+    this.hasDoubleJumpPowerUp = false;
+    this.doubleJump = true;
   }
   
   update(gameScene) {
@@ -166,6 +168,7 @@ class Player {
             this.y = pCenterY - (pHalfH + halfSize);
             this.vY = 0;
             this.grounded = this.coyoteTime;
+            this.doubleJump = true;
           } else {
             // hit from below
             this.y = pCenterY + (pHalfH + halfSize);
@@ -229,6 +232,11 @@ class Player {
   handleJump(jumpKey) {
     if(this.grounded > 0) {
       this.grounded = 0;
+      this.vY = -this.jumpForce;
+      this.jumping = true;
+      this.jumpStart = millis();
+    } else if(this.hasDoubleJumpPowerUp && this.doubleJump && !this.jumping) {
+      this.doubleJump = false; 
       this.vY = -this.jumpForce;
       this.jumping = true;
       this.jumpStart = millis();

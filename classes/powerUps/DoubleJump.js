@@ -1,4 +1,4 @@
-class MagnetismUp extends PowerUp {
+class DoubleJump extends PowerUp {
     constructor(x, y, scene) {
         super();
         this.x = x;
@@ -11,14 +11,15 @@ class MagnetismUp extends PowerUp {
     }
 
     update() {
+        console.log(this.effectTime);
         if(this.plrCollected != undefined) {
             this.effectTime--;
             if(!this.effectActive) {
                 this.effectActive = true;
-                let newTakenSpawns = this.scene.map.filledPowerUpLocs.filter(loc => loc != [this.x, this.y]);
+                this.scene.map.openPowerUpLocs = this.scene.map.filledPowerUpLocs.filter(loc => loc != [this.x, this.y]);
                 append(this.scene.map.openPowerUpLocs, [this.x, this.y]);
-                if(!this.plrCollected.hasMagnetismPowerUp) {
-                    this.plrCollected.hasMagnetismPowerUp = true; // make magnetism stronger
+                if(!this.plrCollected.hasDoubleJumpPowerUp){
+                    this.plrCollected.hasDoubleJumpPowerUp = true; // give double jump
                 } else {
                     return(-1);
                 }
@@ -26,7 +27,7 @@ class MagnetismUp extends PowerUp {
         }
 
         if(this.effectTime <= 0 && this.effectActive) {
-            this.plrCollected.hasMagnetismPowerUp = false;; // revert
+            this.plrCollected.hasDoubleJumpPowerUp = false;; // revert
             this.effectActive = false;
             return(-1);
         }

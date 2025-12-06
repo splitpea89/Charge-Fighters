@@ -2,7 +2,7 @@ class GameScene extends Scene {
   constructor(map, roundsToWin, areMapsRandomized, mapPool, audioController) {
     super();
     this.audioController = audioController;
-    this.powerUpPool = [MagnetismUp]; 
+    this.powerUpPool = [MagnetismUp, DoubleJump]; 
     this.platforms = [];
     this.spikes = [];
     this.polarElements = [];
@@ -48,7 +48,7 @@ class GameScene extends Scene {
         let loc = this.map.getPowerUpLoc();
         if(loc != -1) {
           let powerUp = random(this.powerUpPool);
-          append(this.powerups, new powerUp(loc[0], loc[1]))
+          append(this.powerups, new powerUp(loc[0], loc[1], this))
         }
       }
     }
