@@ -33,12 +33,12 @@ class Player {
     this.hasMagnetismPowerUp = false;
     this.hasDoubleJumpPowerUp = false;
     this.doubleJump = true;
-    this.magnetismWaveTime = 25;
+    this.magnetismWaveTime = 8;
     this.magnetismWaveCounter = 0;
     this.magnetismWaves = [];
     this.lastSwitched = 0;
     this.magnetismBoostAfterSwitch = 3.5;
-    this.magnetismBoostLength = 1200;
+    this.magnetismBoostLength = 500;
   }
   
   update(gameScene) {
@@ -91,7 +91,7 @@ class Player {
 
     // magnetism waves
     this.magnetismWaveCounter--;
-    if(this.magnetismWaveCounter <= 0) {
+    if(this.magnetismWaveCounter <= 0 || (this.hasMagnetismPowerUp && this.magnetismWaveCounter <= this.magnetismWaveTime / 2)) {
       this.magnetismWaveCounter = this.magnetismWaveTime;
       let t = millis() - this.lastSwitched < this.magnetismBoostLength ? (millis() - this.lastSwitched + 1) : this.magnetismBoostLength;
       
