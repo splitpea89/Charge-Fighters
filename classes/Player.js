@@ -33,12 +33,18 @@ class Player {
     this.hasMagnetismPowerUp = false;
     this.hasDoubleJumpPowerUp = false;
     this.doubleJump = true;
+    this.magnetismWaveTime = 25;
+    this.magnetismWaveCounter = 0;
+    this.magnetismWaves = [];
+    this.lastSwitched = 0;
+    this.magnetismBoostAfterSwitch = 3.5;
+    this.magnetismBoostLength = 1200;
   }
   
   update(gameScene) {
-    // magnetism
     if(!this.isAlive) {return;}
 
+    // magnetism
     for(let i in gameScene.polarElements) {
         let element = gameScene.polarElements[i];
         let dx = element.x - this.x;
@@ -59,6 +65,13 @@ class Player {
                 dx *= 2;
                 dy *= 2;
               }
+
+              if(millis() - element.lastSwitched < element.magnetismBoostLength) {
+                let t = millis() - element.lastSwitched;
+                let boost = element.magnetismBoostAfterSwitch / (1 + (t/element.magnetismBoostLength)*5)
+                dx *= boost;
+                dy *= boost;
+              }
             }
 
             this.vX -= this.pol * element.pol * dx * this.magnetismCoef  / (pow(mag, this.distancePower))
@@ -74,6 +87,15 @@ class Player {
     
     if(this.vY <= this.maxVY) {
       this.vY += this.gravity; // gravity
+    }
+
+    // magnetism waves
+    this.magnetismWaveCounter--;
+    if(this.magnetismWaveCounter <= 0) {
+      this.magnetismWaveCounter = this.magnetismWaveTime;
+      let t = millis() - this.lastSwitched < this.magnetismBoostLength ? (millis() - this.lastSwitched + 1) : this.magnetismBoostLength;
+      
+      append(this.magnetismWaves, new MagnetismWave(this, 1.5 + (this.magnetismBoostLength-t)/180, 2000 - (this.magnetismBoostLength - t) * 1.3));
     }
     
     // controls
@@ -95,6 +117,7 @@ class Player {
         if(!this.polKeyWasDown) {
           if(this.changePolCounter <= 0) {
             this.changePolarity();
+            this.lastSwitched = millis();
           }
         }
         this.polKeyWasDown = true;
@@ -117,6 +140,7 @@ class Player {
         if(!this.polKeyWasDown) {
           if(this.changePolCounter <= 0) {
             this.changePolarity();
+            this.lastSwitched = millis();
           }
         }
         this.polKeyWasDown = true;
@@ -217,11 +241,15 @@ class Player {
         }
       }
     }
+
+    // update waves last so they move with player
+    updateAndDrawElements(this.magnetismWaves, true, this);
   }
   
   drawPlayer() {
     if(!this.isAlive) {return;}
     fill(50 + (this.pol * 100), 50 - abs(this.pol*25), 50 - (this.pol * 100));
+    stroke(0);
     strokeWeight(2);
     rect(this.x, this.y, this.size, this.size);
     textSize(11);

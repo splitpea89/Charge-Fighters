@@ -12,13 +12,14 @@ class ImgButton extends UIElement {
     this.wasPressed = false;
   }
   
-  update() {
+  update(scene) {
     if(adjMouseX >= this.x-(this.w/2) && adjMouseX <= this.x+(this.w/2) && 
       adjMouseY >= this.y-(this.h/2) && adjMouseY <= this.y+(this.h/2)) {
       if(mouseIsPressed) {
         this.wasPressed = true;
       } else {
         if(this.wasPressed) {
+          scene.audioController.playClickSound();
           if(this.func != undefined) {
             this.func();
           }

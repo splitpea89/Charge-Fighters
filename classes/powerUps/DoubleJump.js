@@ -11,7 +11,6 @@ class DoubleJump extends PowerUp {
     }
 
     update() {
-        console.log(this.effectTime);
         if(this.plrCollected != undefined) {
             this.effectTime--;
             if(!this.effectActive) {

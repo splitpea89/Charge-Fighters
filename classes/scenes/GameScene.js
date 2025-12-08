@@ -102,7 +102,7 @@ class GameScene extends Scene {
   }
 
   drawStartCountdown() {
-    let t = 3000 - (millis() - this.startTime);
+    let t = 4200 - (millis() - this.startTime);
     if(t > 0) {
       fill(0, 0, 0, 120);
       rect(300, 300, 600, 600);
@@ -130,7 +130,7 @@ class GameScene extends Scene {
     } else if(!this.plr2.isAlive) {
       txt = "Player 1 Wins!";
     }
-    let t = 3000 - (millis() - this.startTime);
+    let t = 4200 - (millis() - this.startTime);
     if(t > 0) {
       fill(0, 0, 0, 120);
       rect(300, 300, 600, 600);
