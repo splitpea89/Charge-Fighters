@@ -58,6 +58,11 @@ function handlePlayerCollisions(plr1, plr2, gameScene) {
   if (overlapX > 0 && overlapY > 0) {
     // Collision occurred
 
+    if(plr1.hasSpikedBody && plr2.hasSpikedBody) {plr1.isAlive = false; plr2.isAlive = false;}
+
+    if(plr1.hasSpikedBody) {plr2.isAlive = false; gameScene.score1++;}
+    if(plr2.hasSpikedBody) {plr1.isAlive = false; gameScene.score2++;}
+
     // Resolve the smaller overlap axis first (to push them apart)
     if (overlapX < overlapY) {
       // Horizontal collision

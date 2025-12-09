@@ -1,10 +1,13 @@
 class AudioController {
     constructor() {
         this.volume = 0.75;
-        this.bgdMusicFactor = 0.65;
+        this.bgdMusicFactor = 0.55;
         this.clickSoundFactor = 0.9;
         this.deathSoundFactor = 1;
         this.powerUpSoundFactor = 1;
+        this.screenTransitionSoundFactor = 0.75;
+        this.beepSoundFactor = 0.9;
+        this.polarityChangeSoundFactor = 0.67;
     }
 
     init() {
@@ -19,6 +22,15 @@ class AudioController {
         }
         if(this.powerUpSound == undefined) {
             this.powerUpSound = loadSound("assets/audio/PowerUp.mp3", _ => {this.powerUpSound.setVolume(this.volume*this.powerUpSoundFactor);});
+        }
+        if(this.screenTransitionSound == undefined) {
+            this.screenTransitionSound = loadSound("assets/audio/ScreenTransition.mp3", _ => {this.screenTransitionSound.setVolume(this.volume*this.screenTransitionSoundFactor);});
+        }
+        if(this.beepSound == undefined) {
+            this.beepSound = loadSound("assets/audio/Beep.wav", _ => {this.beepSound.setVolume(this.volume*this.beepSoundFactor);})
+        }
+        if(this.polarityChangeSound == undefined) {
+            this.polarityChangeSound = loadSound("assets/audio/PolarityChange.mp3", _ => {this.beepSound.setVolume(this.volume*this.polarityChangeSoundFactor);})
         }
     }
 
@@ -58,6 +70,33 @@ class AudioController {
             this.powerUpSound.play();
         } else {
             console.warn("power up sound tried to play but wasn't loaded!");
+        }
+    }
+
+    playScreenTransitionSound() {
+        if(this.screenTransitionSound.isLoaded) {
+            this.screenTransitionSound.setVolume(this.volume*this.screenTransitionSoundFactor);
+            this.screenTransitionSound.play();
+        } else {
+            console.warn("screen transition sound tried to play but wasn't loaded!");
+        }
+    }
+
+    playBeepSound() {
+        if(this.beepSound.isLoaded) {
+            this.beepSound.setVolume(this.volume*this.beepSoundFactor);
+            this.beepSound.play();
+        } else {
+            console.warn("beep sound tried to play but wasn't loaded!");
+        }
+    }
+
+    playPolarityChangeSound() {
+        if(this.polarityChangeSound.isLoaded) {
+            let vol = this.volume*this.polarityChangeSoundFactor
+            this.polarityChangeSound.play(0, 1, vol, 0.267);
+        } else {
+            console.warn("polarity change sound tried to play but wasn't loaded!");
         }
     }
 

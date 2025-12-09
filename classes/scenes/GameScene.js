@@ -2,7 +2,7 @@ class GameScene extends Scene {
   constructor(map, roundsToWin, areMapsRandomized, mapPool, audioController) {
     super();
     this.audioController = audioController;
-    this.powerUpPool = [MagnetismUp, DoubleJump]; 
+    this.powerUpPool = [MagnetismUp, DoubleJump, JumpHeightUp, SpikedBody]; 
     this.platforms = [];
     this.spikes = [];
     this.polarElements = [];
@@ -23,6 +23,7 @@ class GameScene extends Scene {
     this.areMapsRandomized = areMapsRandomized;
     this.mapPool = mapPool;
     this.gameOver = false;
+    this.beeps = 0; // keep track of how many beeps have played for countdown
   }
   
   init() {
@@ -41,6 +42,12 @@ class GameScene extends Scene {
   }
   
   runLoop(dT) {
+
+    if(this.paused) {
+      // pause menu
+      updateAndDrawElements(this.UIElements, true, this);
+      return;
+    }
 
     if(millis() - this.startTime > this.timeBeforeFieldShrink && !this.paused) { // enough time has passed for screen shrink and powerup spawn
       this.fieldSize -= dT/300;
@@ -77,15 +84,17 @@ class GameScene extends Scene {
     if(this.justStarted) {
       this.drawStartCountdown();
     } else {
-      if(keyIsDown(27) && !this.paused) {
-        this.paused = true;
-        append(this.UIElements, new RectButton(300, 250, 150, 50, 10, color(20, 130, 200), color(0, 50, 100), "Continue", 20, 255, () => {this.paused = false; this.UIElements = [];})); // looked up how to pass functions, this syntax passes an inline function while automatically binding "this" to current instance of GameScene
-        append(this.UIElements, new RectButton(300, 400, 150, 50, 10, color(20, 130, 200), color(0, 50, 100), "Exit", 20, 255, () => {this.exit = true;}));
-      }
-      if (this.paused) {
-      // pause menu
-      this.drawPauseMenu();
-      }
+      if(keyIsDown(27)) {
+        if(!this.paused) {
+          this.paused = true;
+          append(this.UIElements, new RectButton(300, 250, 150, 50, 10, color(20, 130, 200), color(0, 50, 100), "Continue", 20, 255, () => {this.paused = false; this.UIElements = [];})); // looked up how to pass functions, this syntax passes an inline function while automatically binding "this" to current instance of GameScene
+          append(this.UIElements, new RectButton(300, 400, 150, 50, 10, color(20, 130, 200), color(0, 50, 100), "Exit", 20, 255, () => {this.exit = true;}));
+          this.drawPauseMenu();
+        } else {
+          this.paused = false; 
+          this.UIElements = [];
+        }
+      } 
     }
 
     updateAndDrawElements(this.UIElements, true, this);
@@ -103,14 +112,19 @@ class GameScene extends Scene {
   }
 
   drawStartCountdown() {
-    let t = 4200 - (millis() - this.startTime);
+    let t = 4500 - (millis() - this.startTime);
     if(t > 0) {
       fill(0, 0, 0, 120);
       rect(300, 300, 600, 600);
       textSize(60+(t%1000)/100);
       fill(250);
       text(Math.ceil(t/1000), 300, 300);
+      if(t < 3000 - (this.beeps*1000)) {
+        this.beeps++;
+        this.audioController.playBeepSound();
+      }
     } else {
+      this.beeps = 0;
       this.activated = true;
       this.justStarted = false;
       this.startTime = millis();
@@ -144,6 +158,10 @@ class GameScene extends Scene {
       if(!this.gameOver) {
         textSize(35);
         text("restarting in: " + str(Math.ceil(t/1000)), 300, 500);
+        if(t < 3000 - (this.beeps*1000)) {
+          this.beeps++;
+          this.audioController.playBeepSound();
+        }
       } else {
         // TODO: something different displayed once one player has won enough rounds to win? Maybe button for return to menu
       }
@@ -159,6 +177,7 @@ class GameScene extends Scene {
         append(this.polarElements, this.plr2);
         this.map.addElements(this.platforms, this.spikes, this.polarElements);
       }
+      this.beeps = 0;
       this.plr1.isAlive = true;
       this.plr2.isAlive = true;
       this.plr1.x = this.map.p1SpawnX;

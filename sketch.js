@@ -25,7 +25,7 @@ function setup() {
   lastTime = millis();
   activeScene.init();
 
-  transition = new TransitionManager();
+  transition = new TransitionManager(activeScene);
 }
 
 function draw() {

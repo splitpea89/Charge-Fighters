@@ -1,11 +1,12 @@
 class TransitionManager {
-    constructor() {
+    constructor(scene) {
         this.active = false;
         this.progress = 0;        // 0 → 1
         this.speed = 0.02;        // slide speed
         this.shakeTime = 0;
-        this.shakeDuration = 50;
+        this.shakeDuration = 67;
         this.onComplete = null;
+        this.scene = scene;
     }
 
     start(callback) {
@@ -21,9 +22,10 @@ class TransitionManager {
         // Slide panels
         this.progress += (this.speed * (1 + this.progress)**2);
 
-        // Trigger shake at the moment they “collide”
+        // Trigger shake on collision
         if (this.progress >= 1 && this.shakeTime === 0) {
             this.shakeTime = this.shakeDuration;
+            this.scene.audioController.playScreenTransitionSound();
             if (this.onComplete) this.onComplete();
         }
 

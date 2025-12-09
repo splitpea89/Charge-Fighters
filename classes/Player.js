@@ -32,12 +32,14 @@ class Player {
     this.activeParticles = [];
     this.hasMagnetismPowerUp = false;
     this.hasDoubleJumpPowerUp = false;
+    this.hasJumpHeightPowerUp = false;
+    this.hasSpikedBody = false;
     this.doubleJump = true;
     this.magnetismWaveTime = 8;
     this.magnetismWaveCounter = 0;
     this.magnetismWaves = [];
     this.lastSwitched = 0;
-    this.magnetismBoostAfterSwitch = 4.5;
+    this.magnetismBoostAfterSwitch = 5;
     this.magnetismBoostLength = 500;
   }
   
@@ -116,6 +118,7 @@ class Player {
       if(keyIsDown(83)) { // 'S'
         if(!this.polKeyWasDown) {
           if(this.changePolCounter <= 0) {
+            gameScene.audioController.playPolarityChangeSound();
             this.changePolarity();
             this.lastSwitched = millis();
           }
@@ -139,6 +142,7 @@ class Player {
       if(keyIsDown(DOWN_ARROW)) {
         if(!this.polKeyWasDown) {
           if(this.changePolCounter <= 0) {
+            gameScene.audioController.playPolarityChangeSound();
             this.changePolarity();
             this.lastSwitched = millis();
           }
@@ -204,12 +208,14 @@ class Player {
             this.x = pCenterX - (pHalfW + halfSize);
             this.vX = 0;
             this.onWall = this.onWallLeniency;
+            this.doubleJump = true;
             this.wallSide = -1;
           } else {
             // hit right
             this.x = pCenterX + (pHalfW + halfSize);
             this.vX = 0;
             this.onWall = this.onWallLeniency;
+            this.doubleJump = true;
             this.wallSide = 1;
           } 
         }
@@ -256,24 +262,38 @@ class Player {
     textSize(11);
     fill(255);
     text(str(this.plrNum), this.x, this.y);
+    // draw spikes on player
+    if(this.hasSpikedBody) {
+      strokeWeight(1);
+      stroke(128);
+      push();
+      translate(this.x, this.y);
+      for(let j = 0; j < 4; j++) {
+        for(let i = 0; i < 3; i++) {
+          triangle(-this.size/2 + (i*this.size/3), -this.size/2, -this.size/2 + ((1+i)*this.size/3), -this.size/2, -this.size/2 + ((0.5+i)*this.size/3), -this.size/1.4);
+        }
+        rotate(PI/2);
+      } 
+      pop();
+    }
   }
 
   handleJump(jumpKey) {
     if(this.grounded > 0) {
       this.grounded = 0;
-      this.vY = -this.jumpForce;
+      this.vY = -(this.jumpForce * (1 + (this.hasJumpHeightPowerUp/2)));
       this.jumping = true;
       this.jumpStart = millis();
     } else if(this.hasDoubleJumpPowerUp && this.doubleJump && !this.jumping) {
       this.doubleJump = false; 
-      this.vY = -this.jumpForce;
+      this.vY = -(this.jumpForce * (1 + (this.hasJumpHeightPowerUp/2)));
       this.jumping = true;
       this.jumpStart = millis();
     }
 
     if(this.onWall > 0) {
       this.onWall = 0;
-      this.vY = -this.jumpForce;
+      this.vY = -(this.jumpForce * (1 + (this.hasJumpHeightPowerUp/2)));
       this.jumping = true;
       this.jumpStart = millis();
       this.vX += this.wallJumpKickback * this.wallSide;
@@ -284,7 +304,7 @@ class Player {
       if(!keyIsDown(jumpKey) || millis() - this.jumpStart > 200) {
         this.jumping = false;
       }
-      this.vY = -this.jumpForce;
+      this.vY = -(this.jumpForce * (1 + (this.hasJumpHeightPowerUp/2)));
     }
   }
   
