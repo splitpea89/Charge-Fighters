@@ -7,7 +7,7 @@ class MapSelectScene extends Scene {
     this.mapImgs = [];
     this.currentIx = 0;
     this.imgIcon = new ImgIcon(300, 200, 110, 110, 0, icon);
-    this.mapLabel = new TextBox(300, 110, 200, 20, 0, this.maps[0].name.replaceAll("_", " "), 15, color(0, 0, 0, 0), color(20));
+    this.mapLabel = new TextBox(300, 110, 200, 20, 0, this.maps[0].name.replaceAll("_", " "), 15, color(0, 0, 0, 0), color(225));
     this.returnScene = false;
     this.backToMain = false;
     this.roundsToWin = 3;
@@ -42,11 +42,11 @@ class MapSelectScene extends Scene {
     append(this.UIElements, new ImgButton(380, 200, 100, 100, loadImage("assets/RightArrow.png"), undefined, () => this.mapScrollRight()));
     append(this.UIElements, new RectButton(420, 520, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Start", 15, color(255), () => {this.returnScene = true;}));
     append(this.UIElements, new RectButton(180, 520, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Exit", 15, color(255), () => {this.backToMain = true;}));
-    append(this.UIElements, new TextBox(250, 330, 300, 40, 0, "Map Randomization: ", 20, color(0, 0, 0, 0), color(0), 0));
+    append(this.UIElements, new TextBox(250, 330, 300, 40, 0, "Map Randomization: ", 20, color(0, 0, 0, 0), color(225), 0));
     this.isRandomizedButton = new ImgButton(385, 330, 60, 60, this.onButton, this.offButton, () => this.randomizedButtonPressed(), false);
     append(this.UIElements, this.isRandomizedButton);
-    append(this.UIElements, new TextBox(250, 400, 300, 40, 0, "Rounds to Win: ", 20, color(0, 0, 0, 0), color(0), 0));
-    this.roundsToWinTextBox = new TextBox(400, 400, 60, 30, 0, this.roundsToWin, 25, color(0, 0, 0, 0), color(0), 0);
+    append(this.UIElements, new TextBox(250, 400, 300, 40, 0, "Rounds to Win: ", 20, color(0, 0, 0, 0), color(225), 0));
+    this.roundsToWinTextBox = new TextBox(400, 400, 60, 30, 0, this.roundsToWin, 25, color(0, 0, 0, 0), color(225), 0);
     append(this.UIElements, this.roundsToWinTextBox);
     append(this.UIElements, new ImgButton(370, 400, 60, 60, loadImage("assets/LeftArrow.png"), undefined, () => this.roundCountScrollLeft()));
     append(this.UIElements, new ImgButton(430, 400, 60, 60, loadImage("assets/RightArrow.png"), undefined, () => this.roundCountScrollRight()));
@@ -133,8 +133,15 @@ if(this.roundsToWin < 67) {
 
   drawBackground() {
     background(0);
-    fill(150);
-    rect(300, 300, 570, 570);
+
+  strokeWeight(0);
+    for(let i = 0; i < 600; i+=10) {
+      fill((255 - (i * 255 / 600))/1.5, 0, 50 + (i * 255 / 600));
+      rect(300, i+300, 600, 600);
+    }
+
+    // fill(150);
+    // rect(300, 300, 570, 570);
     fill(30);
     rect(300, 200, 120, 120);
 

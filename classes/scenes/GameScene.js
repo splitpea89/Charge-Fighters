@@ -61,6 +61,7 @@ class GameScene extends Scene {
     updateAndDrawPlayers(this.plr1, this.plr2, this.activated, this);
     if(!this.plr1.isAlive || !this.plr2.isAlive) {
       if(this.justEnded == true) {
+        this.audioController.playDeathSound();
         this.justEnded = false;
         this.startTime = millis();
         if(max(this.score1, this.score2) >= this.roundsToWin && this.score1 != this.score2) {
@@ -78,8 +79,8 @@ class GameScene extends Scene {
     } else {
       if(keyIsDown(27) && !this.paused) {
         this.paused = true;
-        append(this.UIElements, new RectButton(300, 250, 150, 50, 10, color(0, 110, 150), color(0, 50, 100), "Continue", 20, 255, () => {this.paused = false; this.UIElements = [];})); // looked up how to pass functions, this syntax passes an inline function while automatically binding "this" to current instance of GameScene
-        append(this.UIElements, new RectButton(300, 400, 150, 50, 10, color(0, 110, 150), color(0, 50, 100), "Exit", 20, 255, () => {this.exit = true;}));
+        append(this.UIElements, new RectButton(300, 250, 150, 50, 10, color(20, 130, 200), color(0, 50, 100), "Continue", 20, 255, () => {this.paused = false; this.UIElements = [];})); // looked up how to pass functions, this syntax passes an inline function while automatically binding "this" to current instance of GameScene
+        append(this.UIElements, new RectButton(300, 400, 150, 50, 10, color(20, 130, 200), color(0, 50, 100), "Exit", 20, 255, () => {this.exit = true;}));
       }
       if (this.paused) {
       // pause menu
@@ -130,7 +131,7 @@ class GameScene extends Scene {
     } else if(!this.plr2.isAlive) {
       txt = "Player 1 Wins!";
     }
-    let t = 4200 - (millis() - this.startTime);
+    let t = 3000 - (millis() - this.startTime);
     if(t > 0) {
       fill(0, 0, 0, 120);
       rect(300, 300, 600, 600);
@@ -170,6 +171,8 @@ class GameScene extends Scene {
       this.plr2.vY = 0;
       this.plr1.pol = 1;
       this.plr2.pol = 1;
+      this.plr1.magnetismWaves = [];
+      this.plr2.magnetismWaves = [];
       this.justEnded = true;
       for(let powerup of this.powerups) {
         powerup.effectTime = 0;

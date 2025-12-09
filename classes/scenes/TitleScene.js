@@ -37,9 +37,9 @@ class TitleScene extends Scene {
       this.activeMenu = 0;
       this.volumeSlider.position(-500, -500);
       // this.SFXSlider.position(-225, 375);
-      append(this.menuElements, new RectButton(300, 237, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "START", 15, color(10), this.startGame.bind(this)));
-      append(this.menuElements, new RectButton(300, 362, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "OPTIONS", 15, color(10), this.optionsMenu.bind(this)));
-      append(this.menuElements, new RectButton(300, 487, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "ABOUT", 15, color(10), this.aboutMenu.bind(this)));
+      append(this.menuElements, new RectButton(300, 237, 200, 75, 10, color(20, 130, 200), color(0, 50, 100), "START", 15, color(225), this.startGame.bind(this)));
+      append(this.menuElements, new RectButton(300, 362, 200, 75, 10, color(20, 130, 200), color(0, 50, 100), "OPTIONS", 15, color(225), this.optionsMenu.bind(this)));
+      append(this.menuElements, new RectButton(300, 487, 200, 75, 10, color(20, 130, 200), color(0, 50, 100), "ABOUT", 15, color(225), this.aboutMenu.bind(this)));
       console.log("start menu");
     }
   }
@@ -54,8 +54,8 @@ class TitleScene extends Scene {
       append(this.menuElements, this.volumeSliderImg); // TODO: sound functionality
       // append(this.menuElements, new ImgIcon(360, 374, 40, 40, 0, this.volumeIcon)); // SFX one
       
-      append(this.menuElements, new RectButton(300, 385, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "CREDITS", 15, color(10), this.creditsMenu.bind(this)));
-      append(this.menuElements, new RectButton(300, 487, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "BACK", 15, color(10), this.startMenu.bind(this)));
+      append(this.menuElements, new RectButton(300, 385, 200, 75, 10, color(20, 130, 200), color(0, 50, 100), "CREDITS", 15, color(225), this.creditsMenu.bind(this)));
+      append(this.menuElements, new RectButton(300, 487, 200, 75, 10, color(20, 130, 200), color(0, 50, 100), "BACK", 15, color(225), this.startMenu.bind(this)));
       console.log("options menu");
     }
       
@@ -76,7 +76,7 @@ class TitleScene extends Scene {
       append(this.menuElements, new TextBox(450, 425, 250, 80, 0, "P2 Controls: \nMove: Left Arrow and Right Arrow\nJump/Wall Jump: Up arrow\nSwitch Polarity: Down arrow", 15, color(50), color(220)));
       
       
-      append(this.menuElements, new RectButton(300, 537, 200, 75, 10, color(0, 100, 150), color(0, 50, 100), "BACK", 15, color(10), this.startMenu.bind(this)));
+      append(this.menuElements, new RectButton(300, 537, 200, 75, 10, color(20, 130, 200), color(0, 50, 100), "BACK", 15, color(225), this.startMenu.bind(this)));
     }
     console.log("about menu");
   }

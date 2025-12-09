@@ -6,7 +6,7 @@ class Player {
     this.vY = 0;
     this.plrNum = plrNum; // 1 or 2
     this.pol = pol; // -1 or 1
-    this.changePolCooldown = 30; // cooldown for changing polarity
+    this.changePolCooldown = 50; // cooldown for changing polarity
     this.changePolCounter = 0;
     this.isAlive = true;
     this.size = 20;
@@ -37,7 +37,7 @@ class Player {
     this.magnetismWaveCounter = 0;
     this.magnetismWaves = [];
     this.lastSwitched = 0;
-    this.magnetismBoostAfterSwitch = 3.5;
+    this.magnetismBoostAfterSwitch = 4.5;
     this.magnetismBoostLength = 500;
   }
   
@@ -227,6 +227,7 @@ class Player {
     for(let i in gameScene.powerups) {
       let powerup = gameScene.powerups[i];
       if(powerup.plrCollected == undefined && overlapRects(this.x, this.y, this.size, this.size, powerup.x, powerup.y, 20, 20)[0]) {
+        gameScene.audioController.playPowerUpSound();
         powerup.plrCollected = this;
       }
     }
