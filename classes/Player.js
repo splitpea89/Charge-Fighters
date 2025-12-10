@@ -12,7 +12,7 @@ class Player {
     this.size = 20;
     this.maxVX = 6;
     this.maxVY = 6;
-    this.overMaxSpeedPenaltyFactor = 0.95;
+    this.overMaxSpeedPenaltyFactor = 0.98;
     this.torque = 0.4;
     this.gravity = 0.25;
     this.jumpForce = 5;

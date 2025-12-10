@@ -36,6 +36,8 @@ class GameScene extends Scene {
     append(this.polarElements, this.plr1);
     append(this.polarElements, this.plr2);
 
+    this.backgroundImg = loadImage("assets/BackgroundImg.png");
+
     this.map.addElements(this.platforms, this.spikes, this.polarElements);
     // create objects
     
@@ -46,6 +48,7 @@ class GameScene extends Scene {
     if(this.paused) {
       // pause menu
       updateAndDrawElements(this.UIElements, true, this);
+      if(this.exit) {return new TitleScene(this.audioController);}
       return;
     }
 
@@ -98,16 +101,19 @@ class GameScene extends Scene {
     }
 
     updateAndDrawElements(this.UIElements, true, this);
-
-    if(this.exit) {return new TitleScene(this.audioController);}
   }
   
   drawArena() {
     // TODO: better design?
-    background(200, 0, 0);
-    fill(160);
+    image(this.backgroundImg, -200, 0, 1000, 600);
+    fill(0, 0, 0,  100);
+    rect(300, 300, 600, 600);
     strokeWeight(0);
-    rect(300, 300, this.fieldSize, this.fieldSize);
+    fill(255, 0, 0, 198);
+    rect(0, 300, (600 - this.fieldSize), 600);
+    rect(600, 300, (600 - this.fieldSize), 600);
+    rect(300, 0, this.fieldSize, (600 - this.fieldSize));
+    rect(300, 600, this.fieldSize, (600 - this.fieldSize));
     
   }
 

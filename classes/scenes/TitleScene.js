@@ -20,7 +20,7 @@ class TitleScene extends Scene {
 
     this.audioController.init();
 
-    this.volumeSlider = createSlider(0, 1, 0.75, 0); 
+    this.volumeSlider = createSlider(0, 1, this.audioController.volume, 0); 
     this.volumeSlider.parent("game-div"); 
     this.volumeSlider.position(-500, -500);
     this.volumeSlider.size(200, 40);
@@ -88,7 +88,7 @@ class TitleScene extends Scene {
   startGame() {
     console.log("start game") 
     this.nextScene = (new MapSelectScene(this.audioController));
-    // this.nextScene = new GameScene(new Example_Map()); // override select scene
+    // this.nextScene = new GameScene(new Practice_Range()); // override select scene
   }
   
   runLoop(dT) {

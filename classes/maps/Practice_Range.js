@@ -1,12 +1,12 @@
-class Example_Map extends Map {
+class Practice_Range extends Map {
     constructor() {
         super();
         this.p1SpawnX = 110;
         this.p1SpawnY = 460;
         this.p2SpawnX = 490;
         this.p2SpawnY = 460;
-        this.mapName = "Example Map";
-        this.imgPath = "assets/Example_Map.png";
+        this.mapName = "Practice Range";
+        this.imgPath = "assets/Practice_Range.png";
         this.openPowerUpLocs = [[300, 160], [300, 280]];
         this.filledPowerUpLocs = [];
     }

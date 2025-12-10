@@ -34,7 +34,7 @@ class Pillars extends Map {
         append(platformsArr, spawn2);
 
         let pillar1 = new Platform(120, 110, 15, 100, 1, true, [120, 110, 480, 110, 500, 1]);
-        let pillar2 = new Platform(480, 400, 15, 100, -1, true, [120, 400, 480, 400, 500, 2]);
+        let pillar2 = new Platform(460, 400, 15, 100, -1, true, [140, 400, 460, 400, 500, 2]);
         append(platformsArr, pillar1);
         append(platformsArr, pillar2);
         append(polarElementsArr, pillar1);
@@ -43,6 +43,13 @@ class Pillars extends Map {
         append(platformsArr, new Platform(300, 270, 15, 80, 0));
         append(platformsArr, new Platform(120, 520, 15, 80, 0));
         append(platformsArr, new Platform(480, 520, 15, 80, 0));
+
+        append(platformsArr, new Platform(240, 520, 15, 80, 0));
+        append(platformsArr, new Platform(360, 520, 15, 80, 0));
+
+        append(platformsArr, new Platform(120, 380, 15, 80, 0));
+        append(platformsArr, new Platform(480, 380, 15, 80, 0));
+
  
 
     }

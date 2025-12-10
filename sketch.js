@@ -11,6 +11,8 @@ let transition;
 
 let canvas;
 
+let mapBuilding =  false; // new Charge_Chamber(); // false, or map to initiate to
+
 function preload() {
   icon = loadImage("assets/placeholder-icon.png");
 }
@@ -25,7 +27,13 @@ function setup() {
   lastTime = millis();
   activeScene.init();
 
-  transition = new TransitionManager(activeScene);
+  transition = new TransitionManager(activeScene.audioController);
+
+  if(mapBuilding != false) {
+    let a = activeScene.audioController;
+    activeScene = new GameScene(mapBuilding, 10, false, 0, a);
+    activeScene.init();
+  }
 }
 
 function draw() {

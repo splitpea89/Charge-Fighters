@@ -3,7 +3,7 @@ class MapSelectScene extends Scene {
     super();
     this.audioController = audioController;
     this.UIElements = [];
-    this.maps = [Example_Map, Polka_Dots, Pillars]; //array of maps in rotation
+    this.maps = [Practice_Range, Polka_Dots, Pillars, Charge_Chamber]; //array of maps in rotation
     this.mapImgs = [];
     this.currentIx = 0;
     this.imgIcon = new ImgIcon(300, 200, 110, 110, 0, icon);
