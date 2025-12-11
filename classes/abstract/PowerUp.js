@@ -9,6 +9,7 @@ class PowerUp {
     this.effectActive = false;
     this.effectTime = 500;
     this.icon = loadImage("assets/placeholder-icon.png");
+    this.size = 30;
 
     if(this.constructor === PowerUp) {
       throw new TypeError("PowerUp cannot be instantiated directly");
@@ -41,7 +42,7 @@ class PowerUp {
 
     drawElement() {
         if(this.plrCollected == undefined) {
-            image(this.icon, this.x, this.y + 5 * sin(frameCount/40), 15, 15);
+            image(this.icon, this.x-(this.size/2), this.y - (this.size/2) + 5 * sin(frameCount/40), this.size, this.size);
         }
     }
 
