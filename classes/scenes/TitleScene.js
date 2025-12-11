@@ -3,7 +3,7 @@ class TitleScene extends Scene {
     super();
     this.sceneElements = [];
     this.menuElements = [];
-    this.activeMenu = -1; // "start", "options", "about"
+    this.activeMenu = -1; // "start", "options", "about", "credits"
     this.nextScene = 0;
     audioController == undefined ? this.audioController = new AudioController() : this.audioController = audioController;
   }
@@ -82,7 +82,18 @@ class TitleScene extends Scene {
   }
 
   creditsMenu() {
-    // TODO: Implement
+    if(this.activeMenu != 3) {
+      this.menuElements = [];
+      this.activeMenu = 3;
+      // create about menu
+      
+      this.volumeSlider.position(-500, -500);
+      append(this.menuElements, new TextBox(310, 300, 400, 300, 0, "[Insert Citations]", 5, color(50), color(220)));
+      
+      
+      append(this.menuElements, new RectButton(300, 537, 200, 75, 10, color(20, 130, 200), color(0, 50, 100), "BACK", 15, color(225), this.optionsMenu.bind(this)));
+    }
+    console.log("credits menu");
   }
   
   startGame() {

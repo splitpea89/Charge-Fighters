@@ -54,7 +54,7 @@ class GameScene extends Scene {
 
     if(millis() - this.startTime > this.timeBeforeFieldShrink && !this.paused) { // enough time has passed for screen shrink and powerup spawn
       this.fieldSize -= dT/300;
-      if(random(0, 1000) > 995) { // powerup spawn try
+      if(random(0, 1000) > 995 && this.powerUpPool.length != 0) { // powerup spawn try
         let loc = this.map.getPowerUpLoc();
         if(loc != -1) {
           let powerUp = random(this.powerUpPool);

@@ -1,7 +1,7 @@
 class MagnetismUp extends PowerUp {
     constructor(x, y, scene) {
         super(x, y, scene);
-        // this.icon = loadImage("assets/placeholder-icon.png"); // TODO: find asset
+        this.icon = loadImage("assets/MagnetismUpIcon.png"); // TODO: find asset
     }
 
     onCollected() {

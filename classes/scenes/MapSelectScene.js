@@ -19,6 +19,11 @@ class MapSelectScene extends Scene {
     this.onButton = loadImage("assets/OnButton.png");
     this.offButton = loadImage("assets/OffButton.png");
     
+    this.doubleJumpIcon = loadImage("assets/DoubleJumpIcon.png");
+    this.jumpHeightIcon = loadImage("assets/JumpHeightIcon.png");
+    this.spikedBodyIcon = loadImage("assets/SpikedBodyIcon.png");
+    this.magnetismUpIcon = loadImage("assets/MagnetismUpIcon.png");
+    
     for (let i in this.maps) {
         let map = new this.maps[i]();
         loadImage(
@@ -52,16 +57,16 @@ class MapSelectScene extends Scene {
     append(this.UIElements, new ImgButton(300, 400, 60, 60, loadImage("assets/RightArrow.png"), undefined, () => this.roundCountScrollRight()));
     append(this.UIElements, new TextBox(460, 300, 300, 40, 0, "Powerup Pool: ", 20, color(0, 0, 0, 0), color(225), 0));
     // DoubleJump
-    this.doubleJumpToggle = new ImgButton(430, 340, 25, 25, icon, icon, undefined, true, true);
+    this.doubleJumpToggle = new ImgButton(420, 340, 40, 40, this.doubleJumpIcon, this.doubleJumpIcon, undefined, true, true);
     append(this.UIElements, this.doubleJumpToggle);
     // MagnetismUp
-    this.magnetismUpToggle = new ImgButton(475, 340, 25, 25, icon, icon, undefined, true, true);
+    this.magnetismUpToggle = new ImgButton(485, 340, 40, 40, this.magnetismUpIcon, this.magnetismUpIcon, undefined, true, true);
     append(this.UIElements, this.magnetismUpToggle);
     // JumpHeight
-    this.jumpHeightToggle = new ImgButton(430, 385, 25, 25, icon, icon, undefined, true, true);
+    this.jumpHeightToggle = new ImgButton(420, 405, 40, 40, this.jumpHeightIcon, this.jumpHeightIcon, undefined, true, true);
     append(this.UIElements, this.jumpHeightToggle);
     // SpikedBody
-    this.spikedBodyToggle = new ImgButton(475, 385, 25, 25, icon, icon, undefined, true, true);
+    this.spikedBodyToggle = new ImgButton(485, 405, 40, 40, this.spikedBodyIcon, this.spikedBodyIcon, undefined, true, true);
     append(this.UIElements, this.spikedBodyToggle);
 
   }

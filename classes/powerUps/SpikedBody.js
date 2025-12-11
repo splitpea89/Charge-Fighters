@@ -1,7 +1,7 @@
 class SpikedBody extends PowerUp {
     constructor(x, y, scene) {
         super(x, y, scene);
-        // this.icon = loadImage("assets/placeholder-icon.png"); // TODO: find asset
+        this.icon = loadImage("assets/SpikedBodyIcon.png"); // TODO: find asset
     }
 
     onCollected() {
