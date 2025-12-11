@@ -7,7 +7,7 @@ class MapSelectScene extends Scene {
     this.mapImgs = [];
     this.currentIx = 0;
     this.imgIcon = new ImgIcon(300, 200, 110, 110, 0, icon);
-    this.mapLabel = new TextBox(300, 110, 200, 20, 0, this.maps[0].name.replaceAll("_", " "), 15, color(0, 0, 0, 0), color(225));
+    this.mapLabel = new TextBox(300, 110, 200, 20, 0, "Map: " + this.maps[0].name.replaceAll("_", " "), 15, color(0, 0, 0, 0), color(225));
     this.returnScene = false;
     this.backToMain = false;
     this.roundsToWin = 3;
@@ -42,21 +42,35 @@ class MapSelectScene extends Scene {
     append(this.UIElements, new ImgButton(380, 200, 100, 100, loadImage("assets/RightArrow.png"), undefined, () => this.mapScrollRight()));
     append(this.UIElements, new RectButton(420, 520, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Start", 15, color(255), () => {this.returnScene = true;}));
     append(this.UIElements, new RectButton(180, 520, 120, 60, 10, color(20, 130, 200), color(0, 50, 100), "Exit", 15, color(255), () => {this.backToMain = true;}));
-    append(this.UIElements, new TextBox(250, 330, 300, 40, 0, "Map Randomization: ", 20, color(0, 0, 0, 0), color(225), 0));
-    this.isRandomizedButton = new ImgButton(385, 330, 60, 60, this.onButton, this.offButton, () => this.randomizedButtonPressed(), false);
+    append(this.UIElements, new TextBox(140, 330, 300, 40, 0, "Map Randomization: ", 20, color(0, 0, 0, 0), color(225), 0));
+    this.isRandomizedButton = new ImgButton(275, 330, 60, 60, this.onButton, this.offButton, () => this.randomizedButtonPressed(), false);
     append(this.UIElements, this.isRandomizedButton);
-    append(this.UIElements, new TextBox(250, 400, 300, 40, 0, "Rounds to Win: ", 20, color(0, 0, 0, 0), color(225), 0));
-    this.roundsToWinTextBox = new TextBox(400, 400, 60, 30, 0, this.roundsToWin, 25, color(0, 0, 0, 0), color(225), 0);
+    append(this.UIElements, new TextBox(120, 400, 300, 40, 0, "Rounds to Win: ", 20, color(0, 0, 0, 0), color(225), 0));
+    this.roundsToWinTextBox = new TextBox(272, 400, 60, 30, 0, this.roundsToWin, 25, color(0, 0, 0, 0), color(225), 0);
     append(this.UIElements, this.roundsToWinTextBox);
-    append(this.UIElements, new ImgButton(370, 400, 60, 60, loadImage("assets/LeftArrow.png"), undefined, () => this.roundCountScrollLeft()));
-    append(this.UIElements, new ImgButton(430, 400, 60, 60, loadImage("assets/RightArrow.png"), undefined, () => this.roundCountScrollRight()));
+    append(this.UIElements, new ImgButton(245, 400, 60, 60, loadImage("assets/LeftArrow.png"), undefined, () => this.roundCountScrollLeft()));
+    append(this.UIElements, new ImgButton(300, 400, 60, 60, loadImage("assets/RightArrow.png"), undefined, () => this.roundCountScrollRight()));
+    append(this.UIElements, new TextBox(460, 300, 300, 40, 0, "Powerup Pool: ", 20, color(0, 0, 0, 0), color(225), 0));
+    // DoubleJump
+    this.doubleJumpToggle = new ImgButton(430, 340, 25, 25, icon, icon, undefined, true, true);
+    append(this.UIElements, this.doubleJumpToggle);
+    // MagnetismUp
+    this.magnetismUpToggle = new ImgButton(475, 340, 25, 25, icon, icon, undefined, true, true);
+    append(this.UIElements, this.magnetismUpToggle);
+    // JumpHeight
+    this.jumpHeightToggle = new ImgButton(430, 385, 25, 25, icon, icon, undefined, true, true);
+    append(this.UIElements, this.jumpHeightToggle);
+    // SpikedBody
+    this.spikedBodyToggle = new ImgButton(475, 385, 25, 25, icon, icon, undefined, true, true);
+    append(this.UIElements, this.spikedBodyToggle);
+
   }
 
   randomizedButtonPressed() {
     if(this.isRandomizedButton.state == false) {
-      this.mapLabel.txt = "???";
+      this.mapLabel.txt = "Map: ???";
     } else {
-      this.mapLabel.txt = this.maps[this.currentIx].name.replaceAll("_", " ");
+      this.mapLabel.txt = "Map: " + this.maps[this.currentIx].name.replaceAll("_", " ");
     }
   }
 
@@ -83,10 +97,18 @@ class MapSelectScene extends Scene {
     updateAndDrawElements(this.UIElements, true, this);
 
     if(this.returnScene) {
+        let powerups = [];
+        if(this.spikedBodyToggle.state) {append(powerups, SpikedBody);}
+        if(this.magnetismUpToggle.state) {append(powerups, MagnetismUp);}
+        if(this.doubleJumpToggle.state) {append(powerups, DoubleJump);}
+        if(this.jumpHeightToggle.state) {append(powerups, JumpHeightUp);}
+
+        console.log(powerups);
+
         if(this.isRandomizedButton.state == false) {
-          return(new GameScene(new this.maps[this.currentIx](), this.roundsToWin, false, this.maps, this.audioController));
+          return(new GameScene(new this.maps[this.currentIx](), this.roundsToWin, false, this.maps, this.audioController, powerups));
         } else {
-          return(new GameScene(new (random(this.maps))(), this.roundsToWin, true, this.maps, this.audioController));
+          return(new GameScene(new (random(this.maps))(), this.roundsToWin, true, this.maps, this.audioController, powerups));
         }
     }
 
@@ -116,7 +138,7 @@ if(this.roundsToWin < 67) {
       } else {
           this.currentIx--;
       }
-      this.mapLabel.txt = this.maps[this.currentIx].name.replaceAll("_", " ");
+      this.mapLabel.txt = "Map: " + this.maps[this.currentIx].name.replaceAll("_", " ");
     }
   }
 
@@ -127,7 +149,7 @@ if(this.roundsToWin < 67) {
       } else {
           this.currentIx++;
       }
-      this.mapLabel.txt = this.maps[this.currentIx].name.replaceAll("_", " ");
+      this.mapLabel.txt = "Map: " + this.maps[this.currentIx].name.replaceAll("_", " ");
     }
   }
 

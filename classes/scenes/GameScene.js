@@ -1,8 +1,8 @@
 class GameScene extends Scene {
-  constructor(map, roundsToWin, areMapsRandomized, mapPool, audioController) {
+  constructor(map, roundsToWin, areMapsRandomized, mapPool, audioController, powerUpPool) {
     super();
     this.audioController = audioController;
-    this.powerUpPool = [MagnetismUp, DoubleJump, JumpHeightUp, SpikedBody]; 
+    this.powerUpPool = powerUpPool; 
     this.platforms = [];
     this.spikes = [];
     this.polarElements = [];

@@ -1,5 +1,5 @@
 class ImgButton extends UIElement {
-  constructor(x, y, w, h, img1, img2, func, initState) {
+  constructor(x, y, w, h, img1, img2, func, initState, useNoImage) {
     super();
     this.x = x;
     this.y = y;
@@ -10,6 +10,8 @@ class ImgButton extends UIElement {
     this.func = func;
     initState == undefined ? this.state = true : this.state = initState; // true = on, false = off
     this.wasPressed = false;
+    this.useNoImage = useNoImage
+    this.noImage = loadImage("assets/No.png");
   }
   
   update(scene) {
@@ -32,10 +34,15 @@ class ImgButton extends UIElement {
   
   drawElement() {
     
+
     if(!this.state && !(this.img2 == undefined)) {
       image(this.img2, this.x-(this.w/2), this.y-(this.h/2), this.w, this.h);
     } else {
       image(this.img1, this.x-(this.w/2), this.y-(this.h/2), this.w, this.h);
+    }
+
+    if(!this.state && this.useNoImage) {
+      image(this.noImage, this.x-(this.w/2), this.y-(this.h/2), this.w, this.h);
     }
     
   }
