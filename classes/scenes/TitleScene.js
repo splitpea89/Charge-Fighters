@@ -12,7 +12,11 @@ class TitleScene extends Scene {
     textStyle(BOLD);
     append(this.sceneElements, new LineMagnet(60, 300, 3.2, 2.8, 1, -0.05, 1.3));
     append(this.sceneElements, new LineMagnet(550, 250, 2.8, 3.2, 1, 0.05, 1.8));
+    append(this.sceneElements, new LineMagnet(260, 300, 2.2, 1.8, 1, 0.05, 0.8));
+    append(this.sceneElements, new LineMagnet(350, 250, -2.8, 3.2, 1, 0.05, 1.5));
+    append(this.sceneElements, new LineMagnet(50, 150, -0.8, 3.2, 1, 0.05, 1.3));
     append(this.sceneElements, new LineMagnet(400, 540, 1.8, 3.2, 1, 0.08, 0.9)); // add line magnets
+
     
     this.volumeIcon = loadImage("assets/VolumeIcon.png");
     this.mutedVolumeIcon = loadImage("assets/MutedVolume.png");
