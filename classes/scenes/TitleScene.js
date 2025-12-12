@@ -92,7 +92,15 @@ class TitleScene extends Scene {
       // create about menu
       
       this.volumeSlider.position(-500, -500);
-      append(this.menuElements, new TextBox(310, 300, 400, 300, 0, "[Insert Citations]", 5, color(50), color(220)));
+      append(this.menuElements, new TextBox(310, 300, 480, 360, 0, "", 5, color(50), color(220))); //background box
+      let transparent = color(0, 0, 0, 0);
+      append(this.menuElements, new TextBox(310, 170, 400, 300, 0, "Created By:", 30, transparent, color(220)));
+      append(this.menuElements, new TextBox(310, 230, 400, 300, 0, "Ben Shaheen, Sudhit Sangela, and Devsantosh Gogula", 20, transparent, color(220)));
+      append(this.menuElements, new TextBox(170, 290, 400, 300, 0, "Image Assets:", 20, transparent, color(220)));
+      append(this.menuElements, new TextBox(430, 290, 400, 300, 0, "Sound Assets:", 20, transparent, color(220)));
+
+      append(this.menuElements, new TextBox(170, 360, 400, 300, 0, "svgrepo.com\nfreeiconspng.com\npngwing.com\npngtree.com\nfreesvg.org", 10, transparent, color(220)));
+      append(this.menuElements, new TextBox(430, 360, 400, 300, 0, "myinstants.com\nfreepik.com\nsoundsnap.com\npixabay.com", 10, transparent, color(220)));
       
       
       append(this.menuElements, new RectButton(300, 537, 200, 75, 10, color(20, 130, 200), color(0, 50, 100), "BACK", 15, color(225), this.optionsMenu.bind(this)));

@@ -40,7 +40,7 @@ function overlapRects(x1, y1, w1, h1, x2, y2, w2, h2) {
     return([abs(x2 - x1) < halfW1 + halfW2 && abs(y2 - y1) < halfH1 + halfH2, overlapX, overlapY]); // [bool isOverlapping, num xOverlap, num yOverlap]
 }
 
-// function clamp(v, a, b) { return Math.max(a, Math.min(b, v));}
+// function clamp(v, a, b) { return Math.max(a, Math.min(b, v));} // why did i make this?? just use constrain()
 
 function findClosestPointOnRect(px, py, x1, y1, x2, y2) {
 
@@ -60,8 +60,8 @@ function handlePlayerCollisions(plr1, plr2, gameScene) {
 
     if(plr1.hasSpikedBody && plr2.hasSpikedBody) {plr1.isAlive = false; plr2.isAlive = false;}
 
-    if(plr1.hasSpikedBody) {plr2.isAlive = false; gameScene.score1++;}
-    if(plr2.hasSpikedBody) {plr1.isAlive = false; gameScene.score2++;}
+    if(plr1.hasSpikedBody && plr2.isAlive == true) {plr2.isAlive = false; gameScene.score1++;}
+    if(plr2.hasSpikedBody && plr1.isAlive == true) {plr1.isAlive = false; gameScene.score2++;}
 
     // Resolve the smaller overlap axis first (to push them apart)
     if (overlapX < overlapY) {
